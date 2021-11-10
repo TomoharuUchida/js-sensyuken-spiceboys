@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Space</title>
+
+  <link rel="shortcut icon" href="./img/favicon.ico"><!--faviconの読み込み-->
+  <link rel="stylesheet" href="./css/reset.css"><!--reset.css読み込み-->
+  <link rel="stylesheet" href="./css/style.css"><!--style.css読み込み-->
+
+  <!-- font-awesome読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+</head>
+
+<body>
+  <!-- about部分 -->
+  <div id="about" class="modal">
+    <div id="about_inner">
+      <h2>about our house</h2>
+      <div id="about_txt">
+        <p>テストテストテストテストテストテスト</p>
+        <p>テストテストテストテストテストテスト</p>
+        <p>テストテストテストテストテストテスト</p>
+      </div>
+      <div id="about_close" class="btn">Close</div>
+    </div>
+  </div>
+
+  <!-- 設定メニュー -->
+  <div id="setting_list">
+    <ul>
+      <p id ="setting_close">close</p>
+      <li>テスト</li>
+      <li>テスト</li>
+      <li>テスト</li>
+      <li>テスト</li>
+      <li>テスト</li>
+      <li>テスト</li>
+    </ul>
+  </div>
+
+
+  <!-- ヘッダー部分 -->
+  <header id="header_section">
+    <!-- ヘッダー左側 -->
+    <div id="header_left">
+      <h1>Space</h1>
+      <div id=about_btn class="btn">about</div>
+    </div>
+      <!-- ヘッダー右側 -->
+    <div id="header_right">
+      <a href="second.html" id="subpage_btn">subpage</a>
+      <div id=setting_btn class="btn fas fa-cog"></div>
+    </div>
+  </header>
+  <div class="wrapper">
+    <!-- メイン部分 -->
+    <main>
+      <!-- -----------------画面左側 ---------------------------------->
+      <div id="left_side">
+        <!-- あなたの今日の当番 -->
+        <section id="today_work">
+          
+        </section>
+        <!-- お知らせ -->
+        <section id="info">
+          
+        </section>
+        <!-- メンバー全員の当番 -->
+        <section id="all_work">
+          
+        </section>        
+      </div>
+      <!-- 画面左側ここまで -------------------------------------------->
+
+      <!-- -----------------画面右側 ----------------------------------->
+      <div id="right_side">
+        <!-- 天気とカレンダー -->
+        <section id="calendar">
+          
+        </section>
+        <!-- メンバー一覧 -->
+        <section id="member_list">
+          
+        </section>       
+      </div>
+      <!-- 画面右側ここまで ---------------------------------------------->
+    </main>
+
+  </div><!--wrapperここまで-->
+
+
+  <!-- jquery読み込み -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- JavaScript読み込み -->
+  <script src="./js/main.js"></script>
+</body>
+</html>
