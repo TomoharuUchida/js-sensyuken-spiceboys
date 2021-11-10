@@ -1,9 +1,9 @@
 @charset "utf-8";
 
-/* fonts読み込み */
+/* font読み込み */
 @import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
 
-/* 全体のスタイル */
+/* -------全体のスタイル -------------------------------*/
 * {
   box-sizing: border-box;
 }
@@ -94,7 +94,7 @@ h1 {
   font-size: 40px;
 }
 
-/* ----------about部分 ---------*/
+/* ----------------about部分 ---------*/
 
 .modal {
   width: 100%;
@@ -126,7 +126,7 @@ h1 {
 }
 
 
-/* -----設定メニュー部分------- */
+/* -----------settings部分------- */
 
 #setting_list {
   position: fixed;

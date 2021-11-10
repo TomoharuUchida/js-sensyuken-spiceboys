@@ -3,10 +3,11 @@
 //about消しておく
 $('#about').hide();
 
+//aboutボタンが押されたらabout表示
 $('#about_btn').on('click', function () {
   $('#about').show();
 })
-
+//closeボタンが押されたらaboutを消す
 $('#about_close').on('click', function () {
   $('#about').hide();
 })
@@ -19,7 +20,7 @@ $('#setting_btn').on('click', function () {
   $('#setting_list').slideDown();
 })
 
-//設定メニューを隠す
+//closeボタンで設定メニューを隠す
 $('#setting_close').on('click', function () {
   $('#setting_list').slideUp();
 })
