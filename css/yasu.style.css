@@ -1,0 +1,138 @@
+@charset "utf-8";
+
+/* -------全体のスタイル -------------------------------*/
+* {
+  box-sizing: border-box;
+}
+
+.btn{
+  cursor: pointer;
+}
+
+/* リンクのスタイルを初期化 */
+a:link,
+a:visited,
+a:hover, 
+a:active {  
+    text-decoration: none;  
+    color: #000;  
+} 
+
+li {
+  list-style: none;
+}
+
+button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding: 0;
+        appearance: none;
+}
+
+/* -------shopping_list 部分 ------------------------------*/
+
+/* ショッピングリスト全体 */
+#shopping_frame {
+  background-color: lightgray;
+  width: 500px;
+  height: 500px;
+  padding: 20px;
+}
+
+/* ショッピングリスト入力欄 */
+#shopping_input {
+  width: 200px;
+  height: 32px;
+  font-size: 16px;
+} 
+
+/* ショッピングリスト追加ボタン */
+#shopping_add {
+  background: white;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+}
+
+/* ショッピングリストのデータクリアボタン */
+#shoppingdata_clear {
+  background: white;
+  height: 32px;
+  width: 48px; 
+}
+
+.todo_txt {
+  line-height: 48px;
+  width: 418px;
+  background: white;
+  font-size: 24px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.shopping_txt {
+  background: white;
+  margin-top: 12px;
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.check {
+  height:24px;
+  width: 24px;
+  text-align: center;
+}
+
+/* shoppinglistのゴミ箱ボタン */
+.delete_btn {
+  height: 32px;
+  width: 32px;
+  font-size: 24px;
+  color: gray;
+  background-color:lightgray;
+}
+
+/* ----------------メンバー部分 -----------------------------*/
+
+#member_list {
+  background-color: lightgray;
+  width: 500px;
+  height: 500px;
+  padding: 20px;
+  margin-top: 12px;
+}
+
+#member_img {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 12px auto;
+}
+
+#member_img img {
+  width: 12%;
+  border-radius: 50%;
+  border: 1px solid #606060;
+  margin-right: 4px;
+}
+
+#member_info {
+  margin-top: 50px;
+  height: 300px;
+  width: 90%;
+  border: 1px solid #606060;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#member_info div {
+  margin-bottom: 12px;
+  font-size: 24px;
+}
+
