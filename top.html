@@ -25,12 +25,17 @@
     <!-- 新規useremail -->
     email:<input type="email" id="new_mail_y"><br>
     <!-- 新規password -->
-    password:<input type="passeord" id="new_pass_y"><br>
+    password:<input type="password" id="new_pass_y"><br>
+    <!-- 新規birthday -->
+    birthday:<input type="text" id="new_birthday_y"><br>
+    <!-- 新規hobby -->
+    hobby:<input type="text" id="new_hobby_y"><br>
+    <!-- 新規favorite food -->
+    favoritefood:<input type="text" id="new_food_y"><br>
     <!-- 新規userimage -->
     user image:<input type="file" id="new_pic_y"><br>
     <!-- 新規登録ボタン -->
     <button id="create_btn_y">create</button>
-
   </section>
 <br>
 <br>
@@ -87,15 +92,15 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-      
-    };
+        
+      };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    // Initialize authenticaon
+    // Initialize authentication
     const auth = getAuth(app);
     // Initialize firestore
-    const db = getFirestore(db);
+    const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
 
@@ -106,6 +111,9 @@
         const name = $('#new_name_y').val();//new_name_yの入力値を変数nameへ代入
         const email = $('#new_mail_y').val(); //new_mail_yの入力値を変数emailへ代入
         const password = $('#new_pass_y').val(); //new_pass_yの入力値を変数passwordへ代入
+        const birthday = $('#new_birthday_y').val();//new_birthday_yの入力値を変数birthdayへ代入
+        const hobby = $('#new_hobby_y').val();//new_hobby_yの入力値を変数birthdayへ代入
+        const food = $('#new_food_y').val();//new_food_yの入力値を変数birthdayへ代入
         const file = $('#new_pic_y')[0].files[0]; //new_pic_yで選択された画像ファイルを変数fileに代入
         if (!file) { //もしファイルがなければ、
           alert('ファイルが設定されていません');//アラートを出す
@@ -118,7 +126,17 @@
             alert('登録が完了しました');//アラートを出す
             const user = userCredential.user; //変数userに返ってきたuser情報取得
             const uid = user.uid; //変数uidにuidを代入
-            console.log(user);
+                        
+            const data = { //コレクションにデータを送るための変数を準備
+              uid:uid,
+              name:name,
+              birthday:birthday,
+              hobby:hobby,
+              food:food,
+            }
+
+            addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
+
             //プロフィール画像をstorageに登録
             const profile_pic = ref(storage, `user/${uid}/profile.jpg`);//変数profile_picに保存場所を指定
             uploadBytes(profile_pic, file).then((snapshot) => { //登録処理実行
@@ -132,6 +150,7 @@
             }).catch((error) => { //画像登録が登録失敗したら
               console.log(error);//コンソールにエラーを出す
             });//ユーザープロフィール設定ここまで
+
 
           })//.then ユーザ登録成功したらの処理ここまで
           .catch((error) => { //ユーザー登録に失敗したら
