@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space</title>
+
+  <!--reset.css読み込み-->
+  <link rel="stylesheet" href="./css/reset.css">
+  <!--flame.css読み込み-->
+  <link rel="stylesheet" href="./css/flame.css">
+  <!-- font-awesome読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+</head>
+
+<body>
+  <h1>ユーザー管理</h1>
+
+  <section id="sign_in_y">
+    <h2>新規登録</h2>
+    <!-- 新規username -->
+    name:<input type="text" id="new_name_y"><br>
+    <!-- 新規useremail -->
+    email:<input type="email" id="new_mail_y"><br>
+    <!-- 新規password -->
+    password:<input type="passeord" id="new_pass_y"><br>
+    <!-- 新規userimage -->
+    user image:<input type="file" id="new_pic_y"><br>
+    <!-- 新規登録ボタン -->
+    <button id="create_btn_y">create</button>
+
+  </section>
+<br>
+<br>
+<br>
+  <section id=login_y>
+    <h1>ログイン</h1>
+    <!-- ログインemail -->
+    email:<input type="email" id="login_mail_y"><br>
+    <!-- ログインパスワード -->
+    password:<input type="password" id="login_email_y"><br>
+    <!-- ログインボタン -->
+    <button id="login_btn_y">login</button>
+  </section>
+
+  <!-- jquery読み込み -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script type="module">
+
+    //firebereを利用するためのコード
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+
+    //authenticaonを利用するためのコード
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      updateProfile,
+    } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+
+    //cloudfirestoreを利用するためのコード
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp,
+      onSnapshot,
+      query,
+      orderBy,
+      getDoc,
+      deleteDoc,
+      doc,
+    } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+
+    //storegeを使うためのコード  
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL,
+    } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
+
+    // firebeceのプロダクトを指定するコード APYkey
+    const firebaseConfig = {
+      apiKey: "AIzaSyAqamZcht_UO4W5Eyr16mMXEj5c7MYp6x4",
+      authDomain: "space-5b376.firebaseapp.com",
+      projectId: "space-5b376",
+      storageBucket: "space-5b376.appspot.com",
+      messagingSenderId: "726350650606",
+      appId: "1:726350650606:web:b05be8ebb80ad429d967ff"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Initialize authenticaon
+    const auth = getAuth(app);
+    // Initialize firestore
+    const db = getFirestore(db);
+    // initialize storage
+    const storage = getStorage(app);
+
+    //------------ユーザー新規登録-----------------------------------------------//////
+
+      $('#create_btn_y').on('click', function () { //create_btn_yボタンを押したら発動
+
+        const name = $('#new_name_y').val();//new_name_yの入力値を変数nameへ代入
+        const email = $('#new_mail_y').val(); //new_mail_yの入力値を変数emailへ代入
+        const password = $('#new_pass_y').val(); //new_pass_yの入力値を変数passwordへ代入
+        const file = $('#new_pic_y')[0].files[0]; //new_pic_yで選択された画像ファイルを変数fileに代入
+        if (!file) { //もしファイルがなければ、
+          alert('ファイルが設定されていません');//アラートを出す
+        }
+
+        createUserWithEmailAndPassword(auth, email, password)//ユーザ登録を実行
+          .then((userCredential) => { //成功したら
+            // Signed in
+            console.log('created!'); //コンソールにcreated!
+            alert('登録が完了しました');//アラートを出す
+            const user = userCredential.user; //変数userに返ってきたuser情報取得
+            const uid = user.uid; //変数uidにuidを代入
+            console.log(user);
+            //プロフィール画像をstorageに登録
+            const profile_pic = ref(storage, `user/${uid}/profile.jpg`);//変数profile_picに保存場所を指定
+            uploadBytes(profile_pic, file).then((snapshot) => { //登録処理実行
+              console.log('Uploaded a blob or file!'); //アップロード成功！
+            });
+            //ユーザープロフィール設定
+            updateProfile(auth.currentUser, {
+              displayName: name, photoURL: `user/${uid}/profile.jpg`//変数nameをdisplayNameに指定、photoURLを指定
+            }).then(() => { //画像登録が完了したら
+              console.log('sucsees');//sucsees!
+            }).catch((error) => { //画像登録が登録失敗したら
+              console.log(error);//コンソールにエラーを出す
+            });//ユーザープロフィール設定ここまで
+
+          })//.then ユーザ登録成功したらの処理ここまで
+          .catch((error) => { //ユーザー登録に失敗したら
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(error.code + error.message);//コンソールにエラーを出す
+            // 
+          });//ユーザー登録に失敗したらの処理ここまで
+      });//signinボタンを押したら発動ここまで
+
+  </script>
+
+
+</body>
+</html>

@@ -17,7 +17,7 @@
 <body>
   <!-- ヘッダー部分 -->
   <header id="sub_header">
-    <h1>Space</h1>
+    <h1 id="sub_h1">Space</h1>
     <!-- トップページへのリンク -->
     <a href="index.html" id="toppage_btn" class="btn">top</a>
   </header>
@@ -26,6 +26,23 @@
       <div id="subleft_side">
         <!-- 買い物リスト部分 -->
         <section id="shopping_list">
+
+          <div id="shopping_frame">
+            <h1>Shopping list</h1>
+            <div id="shopping_contents">
+              <!--入力欄-->
+              <input type="text" id="shopping_input">
+          
+              <!--追加ボタン-->
+              <button id="shopping_add" class="fas fa-plus btn"></button>
+              <!--削除ボタン-->
+              <button id="shoppingdata_clear" class="btn">clear</button>
+            </div>
+            <!--追加したshopping todoが表示される場所-->
+            <div id="shopping_output">
+          
+            </div>
+          </div>
 
         </section>
         <section class="free_area">

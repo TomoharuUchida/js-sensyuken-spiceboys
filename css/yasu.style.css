@@ -5,10 +5,6 @@
   box-sizing: border-box;
 }
 
-.btn{
-  cursor: pointer;
-}
-
 /* リンクのスタイルを初期化 */
 a:link,
 a:visited,
@@ -17,11 +13,11 @@ a:active {
     text-decoration: none;  
     color: #000;  
 } 
-
+/* リストの点を消す */
 li {
   list-style: none;
 }
-
+/* ボタンのスタイルをリセット */
 button{
         background-color: transparent;
         border: none;
@@ -34,22 +30,28 @@ button{
 /* -------shopping_list 部分 ------------------------------*/
 
 /* ショッピングリスト全体 */
-#shopping_frame {
+#shopping_frame_y {
   background-color: lightgray;
-  width: 500px;
-  height: 500px;
+  width: 375px;
+  height: 900px;
   padding: 20px;
 }
 
+/* ショッピングリスト全体 */
+#shopping-title_y {
+  display: flex;
+  margin-bottom: 24px;
+}
+
 /* ショッピングリスト入力欄 */
-#shopping_input {
-  width: 200px;
+#shopping_input_y {
+  width: 280px;
   height: 32px;
   font-size: 16px;
 } 
 
 /* ショッピングリスト追加ボタン */
-#shopping_add {
+#shopping_add_y {
   background: white;
   width: 32px;
   height: 32px;
@@ -57,39 +59,30 @@ button{
 }
 
 /* ショッピングリストのデータクリアボタン */
-#shoppingdata_clear {
+#shoppingdata_clear_y {
   background: white;
   height: 32px;
   width: 48px; 
+  margin-left: 24px;
 }
 
-.todo_txt {
-  line-height: 48px;
-  width: 418px;
-  background: white;
-  font-size: 24px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.shopping_txt {
+.shopping_txt_y {
   background: white;
   margin-top: 12px;
-  width: 400px;
+  width: 300px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.check {
+.check_y {
   height:24px;
   width: 24px;
   text-align: center;
 }
 
 /* shoppinglistのゴミ箱ボタン */
-.delete_btn {
+.delete_btn_y {
   height: 32px;
   width: 32px;
   font-size: 24px;
