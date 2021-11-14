@@ -11,28 +11,15 @@
 </head>
 <body>
   <!-- memberlistセクション -->
-  <section id="member_list">
-    <div id="member_contents">
+  <section id="member_list_y">
+
+    <div id="member_contents_y">
       <h2>our house member</h2>
-      <div id="member_img">
-        <img id="per_1" src="./img/person01.png">
-        <img id="per_2" src="./img/person02.png">
-        <img id="per_3" src="./img/person03.png">
-        <img id="per_4" src="./img/person04.png">
-        <img id="per_5" src="./img/person05.png">
-        <img id="per_6" src="./img/person06.png">
-        <img id="per_7" src="./img/person07.png">
-        <img id="per_8" src="./img/person08.png">
-      </div>
-      <div id="member_info">
-        <div id="info_block">
-          <h3 id="per_name">NAME</h3>
-          <div id="hobby">hobby:example</div>
-          <div id="birthday">birthday:2000/01/01</div>
-          <div id="food">favoritefood:example</div>
-        </div>
-      </div>
+
+      <div id="member_view_y"></div>
+
     </div>
+
   </section>
 
   <!-- jquery読み込み -->
@@ -76,7 +63,7 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-       
+        
       };
 
 
@@ -85,16 +72,89 @@
     // Initialize authenticaon
     const auth = getAuth(app);
     // Initialize firestore
-    const db = getFirestore(db);
+    const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
 
     
+    onSnapshot(collection(db, "user"), (querySnapshot) => {
+      console.log(querySnapshot.docs);
+      const dataArray = [];//オブジェクトに変えるようの配列
+      const userArray = [];//ユーザー情報のみを取得する用の配列
+      const imgArray = [];//画像表示用の配列
+
+      querySnapshot.docs.forEach(function (doc) { //querySnapshot.docsをわかりやすいように
+        const data = {
+          id: doc.id,
+          data: doc.data(),
+        };
+        dataArray.push(data);
+      });
+      
+      dataArray.forEach(function(doc){ //dataArrayを分解
+        const udata = {
+          id:doc.id,
+          uid:doc.data.uid,
+          name:doc.data.name,
+          img:doc.data.img,
+          hobby:doc.data.hobby,
+          birthday:doc.data.birthday,
+          food:doc.data.food,
+        }
+        userArray.push(udata);
+      })      
+      console.log(userArray); //userのオブジェクトが完成!!!!
+
+      for(let i = 0; i < userArray.length; i++) { //userArrayにタグ付けをするための繰り返し処理
+        
+        imgArray.push(`
+        
+        <div id="${userArray[i].id}">
+          <div class="member_face_y">
+            <img src ="${userArray[i].img}" class="member_img_y">
+            <h3 class="">${userArray[i].name}</h3>
+          </div>
+
+          <div id="info_${userArray[i].id}" class="member_info_y">
+
+              <div id="info_block_y">
+                <div>hobby:${userArray[i].hobby}</div>
+                <div>birthday:${userArray[i].birthday}</div>
+                <div>favoritefood:${userArray[i].food}</div>
+              </div>
+
+          <div>
+        </div>
+        `);
+      }
+
+      $('#member_view_y').html(imgArray);
+      $('.member_info_y').hide();
+
+      $('.member_face_y').on('click',function(){
+        console.log('click');
+        let id = $(this).parent().attr('id');
+        console.log(id);
+        $(`#info_${id}`).slideDown();
+
+        $(`#info_${id}`).on('click',function(){
+          $(`#info_${id}`).slideUp();
+        })
+      });
+
+
+
+
+
+
+    }); //onSnapshotここまで
+
+    
+
 
   </script>
   
-  <!-- JavaScript読み込み -->
-  <script src="./js/yasu.main.js"></script>
+  
   
 </body>
 </html>

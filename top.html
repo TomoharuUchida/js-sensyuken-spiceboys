@@ -27,7 +27,7 @@
     <!-- 新規password -->
     password:<input type="password" id="new_pass_y"><br>
     <!-- 新規birthday -->
-    birthday:<input type="text" id="new_birthday_y"><br>
+    birthday:<input type="date" id="new_birthday_y"><br>
     <!-- 新規hobby -->
     hobby:<input type="text" id="new_hobby_y"><br>
     <!-- 新規favorite food -->
@@ -92,7 +92,7 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-        
+      
       };
 
     // Initialize Firebase
@@ -119,6 +119,7 @@
           alert('ファイルが設定されていません');//アラートを出す
         }
 
+
         createUserWithEmailAndPassword(auth, email, password)//ユーザ登録を実行
           .then((userCredential) => { //成功したら
             // Signed in
@@ -126,32 +127,44 @@
             alert('登録が完了しました');//アラートを出す
             const user = userCredential.user; //変数userに返ってきたuser情報取得
             const uid = user.uid; //変数uidにuidを代入
-                        
-            const data = { //コレクションにデータを送るための変数を準備
-              uid:uid,
-              name:name,
-              birthday:birthday,
-              hobby:hobby,
-              food:food,
-            }
-
-            addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
-
+            
             //プロフィール画像をstorageに登録
             const profile_pic = ref(storage, `user/${uid}/profile.jpg`);//変数profile_picに保存場所を指定
             uploadBytes(profile_pic, file).then((snapshot) => { //登録処理実行
               console.log('Uploaded a blob or file!'); //アップロード成功！
             });
+
             //ユーザープロフィール設定
             updateProfile(auth.currentUser, {
               displayName: name, photoURL: `user/${uid}/profile.jpg`//変数nameをdisplayNameに指定、photoURLを指定
-            }).then(() => { //画像登録が完了したら
+            }).then(async () => { //プロフィール登録が完了したら
               console.log('sucsees');//sucsees!
-            }).catch((error) => { //画像登録が登録失敗したら
-              console.log(error);//コンソールにエラーを出す
-            });//ユーザープロフィール設定ここまで
+              //画像登録が完了したら実行
+              await getDownloadURL(ref(storage, `user/${uid}/profile.jpg`))//登録した画像のURLを取得
+                .then((url) => {//成功したらURLが返ってくる
+                  
+                  console.log(url);
 
+                  const data = { //コレクションにデータを送るための変数を準備
+                    uid:uid,
+                    name:name,
+                    birthday:birthday,
+                    hobby:hobby,
+                    food:food,
+                    img:url,//画像のURLを保存
+                  }
+                  addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
 
+                })
+
+                .catch((error) => {//プロフィール登録が失敗したら
+                  console.log(error);//コンソールにエラーを出す
+                });
+                
+              }).catch((error) => { //画像登録が登録失敗したら
+                console.log(error);//コンソールにエラーを出す
+              });//ユーザープロフィール設定ここまで
+              
           })//.then ユーザ登録成功したらの処理ここまで
           .catch((error) => { //ユーザー登録に失敗したら
             const errorCode = error.code;

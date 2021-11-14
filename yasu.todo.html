@@ -23,7 +23,7 @@
             <div id="shopping-title_y">
                 <h1><span class="fas fa-shopping-cart"></span>Shopping list</h1>
                 <!--データ削除ボタン-->
-                <button id="shoppingdata_clear_y">clear</button>
+                <!-- <button id="shoppingdata_clear_y">clear</button> -->
             </div>
             <div id="shopping_contents_y">
                 <!--入力欄-->
@@ -66,11 +66,76 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         // Initialize Firestore
-        const db = getFirestore(db);
+        const db = getFirestore(app);
+
+        const q = query(collection(db, "shopping"), orderBy("time", "desc"));
+
+        const shoppingArray = [];//shoppinglist用の配列
+
+            // shoppinglist データの追加
+            $('#shopping_add_y').on('click', function () { //shopping_addボタンが押されたら  
+                                
+                const data = {//データ送信用の変数
+                    text: $('#shopping_input_y').val(),//text欄に入力されたもの
+                    time: serverTimestamp(),//現在時間
+                };
+
+                $("#shopping_input_y").val("");//入力欄を空欄にする
+                $("#shopping_input_y").focus();//入力欄にフォーカスを当てる
+                
+                addDoc(collection(db, "shopping"), data);//shoppingコレクションにデータを送る
+
+            });// shoppinglist データの追加ここまで
+
+            onSnapshot(q, (querySnapshot) => {
+                    //データの変更が発生したタイミングで発動(読み込んだときも発動)
+                    console.log(querySnapshot.docs);//取ってきたデータをコンソールに出す（情報たくさん）
+
+                    const dataArray = [];//必要なデータだけを入れるための配列を準備
+                    //docs（情報たくさん）に対して繰り返し処理
+                    querySnapshot.docs.forEach(function (doc) {
+                         //docに入れて必要なデータを取る
+                        const data = {
+                            id: doc.id,//idを取る（自動生成されるやつ）
+                            data: doc.data(),//dataを取る（ボタンを押してサーバーに保存したやつ）
+                        };
+                         dataArray.push(data); //オブジェクトにして配列にいれる
+                    });
+                    // //必要なものだけ入れたオブジェクトができた！(dateArray)
+                    console.log(dataArray);//コンソールに出す
+                     //表示するためにhtmlコードにしよう！
+                    const tagArray = [];//htmlタグをつけるための配列を準備
+                    //dataをいれた配列に対して繰り返し処理
+                    dataArray.forEach(function (data) {
+                         //dateArrayに入れてタグを付けたものをtagArrayに入れる！
+                        tagArray.push(`
+                        <div id="${data.id}">
+                            <label><input type="checkbox" class="check_y">${data.data.text}</label>
+                            <button class="delete_btn_y fas fa-trash-alt"></div>`);                        
+                    });
+                    //タグを付けたものをhtml化する！
+                    $("#shopping_output_y").html(tagArray);
+                });
+                
+
+            //ゴミ箱ボタンでtodoの項目を消す
+            $(document).on('click', '.delete_btn_y', async function () { //deleteボタンが押されたら
+                const doc_id = $(this).parent().attr('id'); //ボタンの親要素のidを取得、変数doc_idに代入
+                await deleteDoc(doc(db, "shopping", `${doc_id}`)); //変数doc_idとidが一致するドキュメントを削除
+            });
+
+            //チェックボックスにチェックを入れると打ち消し線が入る
+            $(document).on('click', '.check_y', function () {
+                //console.log($(this).is(":checked"));
+                if ($(this).is(":checked")) { //true チェックが入ったら
+                    $(this).parent().css("text-decoration", "line-through");
+                }
+                else { //false チェックが消えたら
+                    $(this).parent().css("text-decoration", "none");
+                }
+            });
+
     </script>
-
-    <!-- JavaScript読み込み -->
-    <script src="./js/yasu.main.js"></script>
+    
 </body>
-
 </html>

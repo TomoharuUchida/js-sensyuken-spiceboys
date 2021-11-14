@@ -66,7 +66,7 @@ button{
   margin-left: 24px;
 }
 
-.shopping_txt_y {
+#shopping_output_y div{
   background: white;
   margin-top: 12px;
   width: 300px;
@@ -92,40 +92,33 @@ button{
 
 /* ----------------メンバー部分 -----------------------------*/
 
-#member_list {
+#member_list_y {
   background-color: lightgray;
   width: 375px;
-  height: 500px;
+  height: 800px;
   padding: 20px;
   margin-top: 12px;
 }
 
-#member_img {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 12px auto;
-}
-
-#member_img img {
-  width: 12%;
-  border-radius: 50%;
-  border: 1px solid #606060;
-  margin-right: 4px;
-}
-
-#member_info {
-  margin-top: 50px;
-  height: 300px;
+#member_contents_y {
   width: 90%;
-  border: 1px solid #606060;
-  display: inline-flex;
-  justify-content: center;
+  height: 500px;
+  margin: 10px auto;
+}
+
+#member_contents_y h2 {
+  margin-bottom: 24px;
+}
+
+.member_img_y {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid gray;
+}
+
+.member_face_y {
+  display: flex;  
   align-items: center;
+  margin-bottom: 4px;  
 }
-
-#member_info div {
-  margin-bottom: 12px;
-  font-size: 24px;
-}
-
