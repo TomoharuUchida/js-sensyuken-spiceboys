@@ -28,13 +28,17 @@ button{
 }
 
 /* -------shopping_list 部分 ------------------------------*/
+.wrapper_y {
+  width: 375px;
+  height: 800px;
+  margin: 0 auto;
+  background-color: lightgray;
+}
 
 /* ショッピングリスト全体 */
 #shopping_frame_y {
-  background-color: lightgray;
-  width: 375px;
-  height: 900px;
-  padding: 20px;
+  width: 90%;
+  padding: 12px;
 }
 
 /* ショッピングリスト全体 */
@@ -45,7 +49,7 @@ button{
 
 /* ショッピングリスト入力欄 */
 #shopping_input_y {
-  width: 280px;
+  width: 200px;
   height: 32px;
   font-size: 16px;
 } 
@@ -93,11 +97,8 @@ button{
 /* ----------------メンバー部分 -----------------------------*/
 
 #member_list_y {
-  background-color: lightgray;
-  width: 375px;
-  height: 800px;
-  padding: 20px;
-  margin-top: 12px;
+  width: 90%;
+  padding-top: 12px;
 }
 
 #member_contents_y {
