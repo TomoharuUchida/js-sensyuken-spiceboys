@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style type="text/css">
+        /* googleフォント読み込み */
+        @import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
+        /* お知らせボックスに関するcss */
+        /* お知らせボックス 全体のdiv */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 375px;
+            padding: 2px;
+        }
+
+        /* --------トップページのお知らせ表示ボックス-------- */
+        .info_container_top {
+            width: 100%;
+            padding: 5px;
+            background-color: burlywood;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+
+        #go_infopage_btn {
+            width: 300px;
+            padding: 10px;
+        }
+
+        /* お知らせボックス 個別の情報 */
+        .info_box li {
+            background-color: white;
+            margin: 5px;
+        }
+
+
+
+        /* --------お知らせ詳細ページ--------- */
+        /* お知らせ作成フォーム全体のdiv */
+        .info_input {
+            /* width: 40%; */
+            padding: 5px;
+            background-color: burlywood;
+            border: 1px solid #eee;
+        }
+
+        /* 表示・非表示となる部分のdiv */
+        #info_input_box div {
+            /* display: none; */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 個別のお知らせ詳細を表示させる部分のdiv */
+        .info_container_sub {
+            /* width: 40%; */
+            padding: 5px;
+            background-color: burlywood;
+            border: 1px solid #eee;
+        }
+
+
+        */
+    </style>
+</head>
+
+<body>
+
+    <!-- トップページのお知らせ表示ボックス 日時とタイトルのみ表示-->
+    <div class="info_container_top">
+        <div><button type="button" id="go_infopage_btn" onclick="location.href=''">お知らせを見る</button></div>
+        <!-- <h4>新着のお知らせ</h4>
+        <div class="info_box">
+            <ul id="output_top" style="list-style: none;">
+            </ul>
+        </div>-->
+    </div>
+
+
+    <!-- お知らせ詳細ページ部分 -->
+    <div class="info_input" style="text-align: center;">
+        <p style="font-weight: bold; text-align: left">お知らせを作成する</p>
+        <p><button id="info_input_box_btn" style="width: 300px; padding:10px;">作成画面の表示</button></p>
+        <div id="info_input_box">
+            <div><label for="info_title">タイトル</label>
+                <input type="text" id="info_title">
+            </div>
+            <div><label for="info_contents">内容</label>
+                <textarea name="" id="info_contents" cols="30" rows="10"></textarea>
+            </div>
+            <div>
+                <button type="button" id="info_send">投稿</button>
+            </div>
+        </div>
+    </div>
+    <!-- 裏ページのお知らせ表示ボックス 日時とタイトルと内容を表示-->
+    <!-- 情報が増えるとページが長くなってしまう -->
+    <div class="info_container_sub">
+        <h4>お知らせを詳しく見る</h4>
+        <div class="info_box">
+            <ul id="output_sub" style="list-style: none;"></ul>
+        </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        // 日時をいい感じの形式にする関数
+        function convertFromFirestoreTimestampToDatetime(timestamp) {
+            const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+            const Y = _d.getFullYear();
+            const m = (_d.getMonth() + 1).toString().padStart(2, '0');
+            const d = _d.getDate().toString().padStart(2, '0');
+            const H = _d.getHours().toString().padStart(2, '0');
+            const i = _d.getMinutes().toString().padStart(2, '0');
+            const s = _d.getSeconds().toString().padStart(2, '0');
+            return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+        }
+    </script>
+
+    <!-- 以下にfirebaseのコードを貼り付けよう -->
+    <!-- firebaseサービスを使用する前に、サイトで表示されたものをコピペする firebaseのverupでエラーが出ることがある -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // collectionを作った後に記載 ここから
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp,
+            onSnapshot,
+            query,
+            orderBy,
+            doc,
+            deleteDoc,
+        } from "https://www.gstatic.com/firebasejs/9.2.0/firebase-firestore.js";
+        // ここまで
+
+        // Gitのときは忘れずに削除
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "js-contest-a723e.firebaseapp.com",
+            projectId: "js-contest-a723e",
+            storageBucket: "js-contest-a723e.appspot.com",
+            messagingSenderId: "954245879221",
+            appId: "1:954245879221:web:0d67f5f5def4bdaf7c35fc"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // ここの1行もimportと一緒に記載する。appを使ってdbにデータを置くというやつ
+        const db = getFirestore(app);
+
+        // 'お知らせを作成する'を表示・非表示に切り替える
+        $("#info_input_box_btn").on('click', function () {
+            console.log('hogehoge');
+            // $("#info_input_box").css('display', 'block');
+            $("#info_input_box").slideToggle();
+        });
+
+
+        $("#info_send").on("click", function () {
+            // 投稿に必要な処理
+            const infoArray = [];
+            const data = {
+                title: $("#info_title").val(),
+                content: $("#info_contents").val(),
+                time: serverTimestamp(),
+                // serverTimestampはgoogleが用意した時間の表記処理方式
+            };
+            infoArray.push(data);
+            console.log(data);
+            // collection,collection名を指定しないとaddDocがエラーになる
+            addDoc(collection(db, 'infomation'), data);
+            $('#info_title').val('');
+            $('#info_contents').val('');
+
+        });
+
+
+        // firestoreからのデータの取得
+        // データを取得した時点で並び替えたものを取得する
+
+        // chatapp.html内に記述してある関数
+        // 日時をいい感じの形式にする関数
+        function convertTimestampToDatetime(timestamp) {
+            const _d = timestamp ? new Date(timestamp * 1000) : new Date();
+            const Y = _d.getFullYear();
+            const m = (_d.getMonth() + 1).toString().padStart(2, "0");
+            const d = _d.getDate().toString().padStart(2, "0");
+            const H = _d.getHours().toString().padStart(2, "0");
+            const i = _d.getMinutes().toString().padStart(2, "0");
+            const s = _d.getSeconds().toString().padStart(2, "0");
+            return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+        }
+
+        // データ取得条件の指定（今回は時間の新しい順に並び替えて取得）
+        // ordeByがなければ、googleのよくわからない順番で出力されてしまう
+        const q = query(collection(db, "infomation"), orderBy("time", "desc"));
+
+        // onSnapshotの{}内はfirebaseのデータが動いたときに動く
+        // firestoreから取ってきたデータを使用する処理を書く場合は、全て{}内に書く必要がある
+        onSnapshot(q, (querySnapshot) => {
+            console.log(querySnapshot.docs);
+
+            // 取得したデータの取り出し(わかりやすい形に変換するための配列を用意する)
+            const dataArray = [];
+
+            // firestoreから取得したデータを繰り返し処理して、dataというオブジェクトにidと中身をまとめる
+            querySnapshot.docs.forEach(function (doc) {
+                const data = {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+
+                // わかりやすい形のデータを入れるための配列にオブジェクトを追加する
+                dataArray.push(data);
+            });
+            console.log(dataArray);
+
+            // タグを入れるための配列を用意する
+            const tagArrayTop = [];
+            const tagArraySub = [];
+
+            // いい形の配列を繰り返し処理して
+            dataArray.forEach(function (data) {
+                // いい形の入っているオブジェクトからタグを生成して、タグを入れるための配列に追加する
+                // convertTimestampToDatetimeはタグをつけるときに呼び出す(データの取得時ではない)
+
+
+                tagArrayTop.push(`
+              <li id="${data.id}">
+              <p>${convertTimestampToDatetime(data.data.time?.seconds)}</p>
+              <p>${data.data.title}</p>
+              </li>
+              `);//トップ画面用
+
+
+                tagArraySub.push(`
+              <li id="${data.id}">
+              <p>${convertTimestampToDatetime(data.data.time?.seconds)}</p>
+              <p>${data.data.title}</p>
+              <p>${data.data.content}</p>
+              <div id="undo"><button type=button>削除する</button></div>
+              </li>
+              `);//詳細画面用
+
+            });
+
+            $("#output_top").html(tagArrayTop);//トップページ
+            $("#output_sub").html(tagArraySub);//詳細画面ページ
+        });
+
+
+        // '削除する'ボタンを押した時の処理
+        $(document).on('click', "#undo", function () {
+            const docid = $(this).parent().attr('id')
+            deleteDoc(doc(db, "infomation", docid));
+        });
+
+
+
+    </script>
+</body>
+
+</html>

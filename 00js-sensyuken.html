@@ -7,61 +7,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./uchida-js-sensyuken.css">
-    <link rel="stylesheet" href="">
+    <style type="text/css">
+        /* 担当の仕事ボックス */
+        .member_list_container {
+            background-color: glay;
+        }
+
+        .member_list_title {
+            margin: 0px;
+        }
+
+        .membersBox {
+            border: 1px solid darkgray;
+            margin: 1px;
+            /* background-color: chocolate; */
+        }
+
+        .name_tag_u {
+            font-weight: bold;
+        }
+
+        .membersBox p {
+            font-size: 5px;
+            padding: 0px;
+        }
+    </style>
 </head>
 
 <body>
     <!-- class名は案です。-->
-    <!-- トップページのお知らせ表示ボックス 日時とタイトルのみ表示-->
-    <div class="info_container">
-        <h4>お知らせ</h4>
-        <div class="info_box">
-            <ul id="output">
-                <li>date<br>title</li>
-                <li>date<br>title</li>
-                <li>date<br>title</li>
-            </ul>
-        </div>
-    </div>
-    <!-- 裏ページのお知らせ作成ボックス -->
-    <div class="info_input">
-        <h4>お知らせ作成</h4>
-        <div class="info_input_box">
-            <div>
-                日付:<input type="text" id="info_date">
-            </div>
-            <div>
-                タイトル: <input type="text" id="info_title">
-            </div>
-            <div>
-                内容: <input type="text" id="info_contents">
-            </div>
-            <div>
-                <button type="button" id="info_send">投稿</button>
-            </div>
-        </div>
-    </div>
-    <!-- 裏ページのお知らせ表示ボックス 日時とタイトルと内容を表示-->
-    <!-- 情報が増えるとページが長くなってしまう -->
-    <div class="info_container">
-        <h4>お知らせを詳しく見る</h4>
-        <div class="info_box">
-            <ul id="output">
-                <li>date<br>title<br>contents</li>
-                <li>date<br>title<br>contents</li>
-                <li>date<br>title<br>contents</li>
-                <li>date<br>title<br>contents</li>
-                <li>date<br>title<br>contents</li>
-
-            </ul>
-        </div>
-    </div>
     <!-- '自分の仕事の表示ボックス' -->
     <div class="mywork_container">
         <h3 id='mywork_box_name'>内田ともはるさんのお仕事</h3>
         <p id="mywork_box_date"></p>
         <ul id="mywork_box_work">
         </ul>
+    </div>
+
+    <!-- メンバーの仕事を表示するボックス -->
+    <div class="member_list_container">
+        <h4 member_list_title>メンバーのお仕事</h4>
+        <div id="member_list_box"></div>
+    </div>
+
+    <!-- '仕事をシャッフルする'機能のボックス -->
+    <div class="work_mixing_container">
+        <h4>仕事を入れ替える</h4>
+        <div class="work_mixing">
+            <form action="">
+                <button type="button" id="work_mixing_btn">入替実行</button>
+            </form>
+        </div>
     </div>
     <!-- '仕事の追加・削除'機能のボックス -->
     <div class="work_setting">
@@ -78,6 +74,16 @@
             </form>
         </div>
     </div>
+
+    <!-- 仕事の削除機能のボックス -->
+    <!-- 配列から仕事をボタンにして表示し、クリックして、「削除決定」をクリックして削除する -->
+    <div class="work_deleate_container">
+        <h4>仕事を削除する</h4>
+        <div class="work_deleate_box">
+            <ul id="delete_btn_box">
+
+            </ul>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="./uchida-js-sensyuken.js"></script

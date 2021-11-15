@@ -2,7 +2,7 @@
 /* お知らせボックスに関するcss */
 /* お知らせボックス 全体のdiv */
 .info_container{
-    width: 40%;
+    /* width: 40%; */
     padding:5px;
     background-color: burlywood;
     border: 1px solid #eee;
@@ -18,7 +18,7 @@
 
 /* 裏ページ お知らせボックスの作成画面 */
 .info_input{
-    width: 40%;
+    /* width: 40%; */
     padding:5px;
     background-color: burlywood;
     border: 1px solid #eee;
@@ -26,11 +26,11 @@
 
 /*自分の仕事 表示ボックス*/
 .mywork_container {
-    width: 40%;
+    /* width: 40%; */
     background-color: lightgreen;
 }
 
 .work_setting {
-    width: 40%;
+    /* width: 40%; */
     background-color: lightgreen;
 }
