@@ -8,6 +8,9 @@
 
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/yasu.style.css">
+
+  <!-- font-awesome読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 </head>
 <body>
   <!-- memberlistセクション -->
@@ -16,13 +19,24 @@
     <section id="member_list_y">
       
       <div id="member_contents_y">
-        <h2>our house member</h2>
+        <h2>Our House Member</h2>
         
         <div id="member_view_y"></div>
-        
       </div>
-      
     </section>
+
+        <footer id="footer_section_y">
+          <ul id="link_btn_y">
+            <a href="index.html"><li class="fas fa-home"></li></a>
+            <a href="./カレンダー/calender.html"><li class="far fa-calendar-alt btn"></li></a>
+            <a href="./ルーレット/roulette1.html"><li class="fas fa-dice btn"></li></a>
+            <a href="yasu.todo.html"><li class="fas fa-shopping-cart btn"></li></a>
+            <a href="yasu.member.html"><li class="fas fa-users btn"></li></a>
+            <a href="setting.html"><li class="fas fa-cog btn"></li></a>
+          </ul>
+        </footer>
+        
+      
   </div>
 
   <!-- jquery読み込み -->
@@ -66,7 +80,12 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-      
+      apiKey: "AIzaSyCoLKrjft6JA8cggMcCJ8UbG3POakdqF-8",
+      authDomain: "space-bf593.firebaseapp.com",
+      projectId: "space-bf593",
+      storageBucket: "space-bf593.appspot.com",
+      messagingSenderId: "204357256586",
+      appId: "1:204357256586:web:b89eaf5069b204446bb473"
       };
 
 
@@ -78,6 +97,18 @@
     const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
+
+    const user = auth.currentUser;
+
+    if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log(user);
+      } else {
+        // No user is signed in.
+        console.log(user);
+      }
+
 
     
     onSnapshot(collection(db, "user"), (querySnapshot) => {
@@ -112,7 +143,7 @@
         
         imgArray.push(`
         
-        <div id="${userArray[i].id}">
+        <div id="${userArray[i].id}"class="member_container_y">
           <div class="member_face_y">
             <img src ="${userArray[i].img}" class="member_img_y">
             <h3 class="">${userArray[i].name}</h3>
@@ -121,9 +152,9 @@
           <div id="info_${userArray[i].id}" class="member_info_y">
 
               <div id="info_block_y">
-                <div>hobby:${userArray[i].hobby}</div>
-                <div>birthday:${userArray[i].birthday}</div>
-                <div>favoritefood:${userArray[i].food}</div>
+                <div><span>birthday: </span>${userArray[i].birthday}</div>
+                <div><span>hobby: </span>${userArray[i].hobby}</div>
+                <div><span>favoritefood: </span>${userArray[i].food}</div>
               </div>
 
           <div>
@@ -131,19 +162,22 @@
         `);
       }
 
-      $('#member_view_y').html(imgArray);
-      $('.member_info_y').hide();
+      $('#member_view_y').html(imgArray);//imgArrayを表示
+      $('.member_info_y').hide();//メンバー詳細は隠しておく
 
-      $('.member_face_y').on('click',function(){
-        console.log('click');
-        let id = $(this).parent().attr('id');
+      $('.member_face_y').on('click',function(){//メンバーの部分がクリックされたら
+        let id = $(this).parent().attr('id');//親要素のIDを取得(uid)
         console.log(id);
-        $(`#info_${id}`).slideDown();
+        
+        if ($(`#info_${id}`).hasClass('show')){ //もしshowクラスがついていれば
+          $(`#info_${id}`).slideUp();//infoを隠す
+          $(`#info_${id}`).removeClass('show');//showクラスを削除
+        }else{ //showクラスが無ければ
+          $(`#info_${id}`).slideDown();//infoを出す
+          $(`#info_${id}`).addClass('show');//showクラスを追加
+        }
+      }); 
 
-        $(`#info_${id}`).on('click',function(){
-          $(`#info_${id}`).slideUp();
-        })
-      });
 
 
 

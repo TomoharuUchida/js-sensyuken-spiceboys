@@ -54,7 +54,7 @@
             <div id="sign_close_y" class="btn fas fa-times"></div>
           </div>
 
-          <h1>Signin</h1>
+          <h1>新規登録</h1>
           <!-- 新規username -->
           <p>name</p>
           <input type="text" id="new_name_y">
@@ -75,7 +75,8 @@
           <input type="text" id="new_food_y">
           <!-- 新規userimage -->
           <p>user image</p>
-          <input type="file" id="new_pic_y">
+          <input type="file" id="new_pic_y"><br>
+          <img id="select_img_y"><br>
           <!-- 新規登録ボタン -->
           <button id="create_btn_y" class="btn">登録</button>
         </div>
@@ -97,7 +98,7 @@
           <!-- ヘッダー -->
           <h1 id="main_h1_y">Space</h1>
           <img id="display_img_y">
-          <div id=logout_btn_y class="btn">logout</div>
+          <div id=logout_btn_y class="btn">ログアウト</div>
         </header>
         <main>
           <!-- ログインしたユーザーネーム表示場所 -->
@@ -105,16 +106,18 @@
           
           
         </main>
+        <!-- フッター埋め込み部分 -->
         <footer id="footer_section_y">
           <ul id="link_btn_y">
-            <li class="fas fa-info-circle btn"></li>
-            <li class="far fa-calendar-alt btn"></li>
-            <li class="fas fa-dice btn"></li>
-            <li class="fas fa-shopping-cart btn"></li>
-            <li class="fas fa-users btn"></li>
-            <li class="fas fa-cog btn"></li>
+            <a href ="index.html"><li class="fas fa-home btn"></li></a>
+            <a href = "./カレンダー/calender.html"><li class="far fa-calendar-alt btn"></li></a>
+            <a href="./ルーレット/roulette1.html"><li class="fas fa-dice btn"></li></a>
+            <a href="yasu.todo.html"><li class="fas fa-shopping-cart btn"></li></a>
+            <a href="yasu.member.html"><li class="fas fa-users btn"></li></a>
+            <a href="setting.html"><li class="fas fa-cog btn"></li></a>
           </ul>
         </footer>
+        <!-- フッター埋め込み部分ここまで -->
         
       </div>
     </div><!--screen_wrapper_yここまで-->
@@ -129,7 +132,7 @@
     //最初の画面設定
     $('#login_y').hide();//ログイン画面を消しておく
     $('#sign_in_y').hide();//新規登録画面を消しておく
-    $('#main_page_y').hide();//メインページを消しておく
+    //$('#main_page_y').hide();//メインページを消しておく
 
     $('#toplogin_btn_y').on('click',function(){ //トップ画面のログインボタンが押されたら
       $('#login_y').show();//ログイン画面を出す
@@ -146,6 +149,16 @@
     $('#sign_close_y').on('click', function () { //新規登録画面のクローズボタンが押されたら
         $('#sign_in_y').hide();//登録画面を隠す
       })
+
+    //魚写真が選択されたらプレビューを表示
+      $('#new_pic_y').on('change', function (e) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("#select_img").attr('src', e.target.result);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+      });
+
     
   </script>
 
@@ -191,7 +204,12 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-      
+      apiKey: "AIzaSyCoLKrjft6JA8cggMcCJ8UbG3POakdqF-8",
+      authDomain: "space-bf593.firebaseapp.com",
+      projectId: "space-bf593",
+      storageBucket: "space-bf593.appspot.com",
+      messagingSenderId: "204357256586",
+      appId: "1:204357256586:web:b89eaf5069b204446bb473"
       };
 
     // Initialize Firebase
@@ -202,6 +220,17 @@
     const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
+
+    const user = auth.currentUser;
+
+    if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log(user);
+      } else {
+        // No user is signed in.
+        console.log(user);
+      }
 
     //------------ユーザー新規登録-----------------------------------------------//////
 
