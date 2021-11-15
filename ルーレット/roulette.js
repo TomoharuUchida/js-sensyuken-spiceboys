@@ -1,5 +1,3 @@
-'use strict'
-
 document.addEventListener("DOMContentLoaded", function(){                    //要素の表示、円周上に表示させる
     
     let num = [0,1,2,3,4,5,6,7,8,9];

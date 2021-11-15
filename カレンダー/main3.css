@@ -23,7 +23,7 @@ td:last-child {
   color: royalblue;
 }
 
-.today {
-  color: goldenrod !important;
 }
-#これが今日の日付だけ色を変える指定です
+.today {
+  color: goldenrod !important;               /*これが今日の日付だけ色を変える指定です
+}

@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="main.css" rel="stylesheet">
+     <link href="main.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript">
-     moji="SPACE";                                        //表示文字                  //*spaceを出す
-     msec=100;                                           //追従速度
+     moji="SPACE";                                          //表示文字                  //*spaceを出す
+     msec=100;                                              //追従速度
         fx=20;                                              //表示位置ｘ座標
         fy=-10;                                             //表示位置y座標
-        fs=4;                                               //文字の大きさ
+        fs=10;                                               //文字の大きさ
         fc="blue";                                           //文字色
         F_face="Times New Roman";                            //フォント
         x=new Array();y=new Array();cnt = 0;
@@ -41,7 +41,18 @@
 </head>
 <body>
     <body>
-        <div class="display">
+        <script>
+            alert("さあ皆さん今からルーレットが始まりますよ！");
+         </script>
+         <script>
+            alert("これで今週の予定が決まりますよ!"); 
+         </script>
+         <script>
+             var value=prompt("お名前を入力して下さい"); 
+             document.write("お疲れ様です!!  " +value+ " さん。");  
+
+         </script>
+         <div class="display">
             <div id = "roulette" class="roulette"></div>
             <div class="c_button">
                 <button id ="start">スタート</button>

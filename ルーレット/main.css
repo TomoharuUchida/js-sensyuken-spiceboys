@@ -1,7 +1,7 @@
 .display{
-    margin-top: 100px;
-    margin-left:100px;
-    width: 400px;
+    margin-top: 50px;
+    margin-left:50px;
+    width: 375px;
 }
 .roulette{
     display: block;
@@ -13,7 +13,7 @@
 .cil{
     width: 80px;
     height: 80px; 
-    background-color: rgb(250, 255, 180);
+    background-color:green;
     border-radius: 50%;/* 円*/
     line-height: 80px;
     text-align: center;
@@ -35,12 +35,12 @@ button {
     background: #fff;
     text-align: center;
 }
-button:hover {
-    color: #fff;
-    background: #000;
+button:hover {                  
+    color: yellow;
+    background:red;
     }
-.red {
-    background-color:#ff0062;
+.red {                                                                    
+    background-color:whitesmoke;
     width: 80px;
     height: 80px; 
     border-radius: 50%;/* 円*/
@@ -60,4 +60,6 @@ button:hover {
     position: absolute;
 }
  
- 
+html {
+    background-color: #009f85;
+  }
