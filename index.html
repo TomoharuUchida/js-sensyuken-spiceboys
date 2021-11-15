@@ -97,12 +97,22 @@
         <header id="header_section_y">
           <!-- ヘッダー -->
           <h1 id="main_h1_y">Space</h1>
-          <img id="display_img_y">
-          <div id=logout_btn_y class="btn">ログアウト</div>
+          <div id=logout_btn_y class="btn">Logout</div>
         </header>
         <main>
           <!-- ログインしたユーザーネーム表示場所 -->
-          <p id="login_user_y"></p>
+          <div id="display_y">
+            <img id="display_img_y">
+            <p id="login_user_y"></p>
+          </div>
+
+          <div id ="link" >
+
+            <div id="works" class="btn">Works</div>
+            <div id="infomation" class="btn">Infomation</div>
+            <div id="rules" class="btn">Our House Rule</div>
+
+          </div>
           
           
         </main>
@@ -132,7 +142,10 @@
     //最初の画面設定
     $('#login_y').hide();//ログイン画面を消しておく
     $('#sign_in_y').hide();//新規登録画面を消しておく
-    //$('#main_page_y').hide();//メインページを消しておく
+    $('#main_page_y').hide();//メインページを消しておく
+    //$('#title_page_y').hide();
+    
+
 
     $('#toplogin_btn_y').on('click',function(){ //トップ画面のログインボタンが押されたら
       $('#login_y').show();//ログイン画面を出す
@@ -150,7 +163,7 @@
         $('#sign_in_y').hide();//登録画面を隠す
       })
 
-    //魚写真が選択されたらプレビューを表示
+    //写真が選択されたらプレビューを表示
       $('#new_pic_y').on('change', function (e) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -203,9 +216,7 @@
     } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
     // firebeceのプロダクトを指定するコード APYkey
-    const firebaseConfig = {
-      
-      };
+    
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -215,20 +226,10 @@
     const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
-
+    // ユーザー情報確認
     const user = auth.currentUser;
 
-    if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        console.log(user);
-      } else {
-        // No user is signed in.
-        console.log(user);
-      }
-
     //------------ユーザー新規登録-----------------------------------------------//////
-
 
       $('#create_btn_y').on('click', function () { //create_btn_yボタンを押したら発動
 
@@ -242,7 +243,6 @@
         if (!file) { //もしファイルがなければ、
           alert('ファイルが設定されていません');//アラートを出す
         }
-
 
         createUserWithEmailAndPassword(auth, email, password)//ユーザ登録を実行
           .then((userCredential) => { //成功したら
@@ -280,7 +280,6 @@
                   await addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
 
                   const data2 = { //myworkコレクションにデータを送るための変数を準備
-                    uid: uid,
                     uid:uid,
                     name:name,
                     work_name:"",
@@ -311,66 +310,48 @@
 //--------------ログイン操作-----------------------------------------------------------//
 
 
-      $('#login_btn_y').on('click', function () { //logininボタンを押したら発動
-          const email = $('#login_mail_y').val(); //login_emailの入力値を変数emailへ代入
-          const password = $('#login_pass_y').val(); //login_passwordの入力値を変数passwordへ代入
+    $('#login_btn_y').on('click', function () { //logininボタンを押したら発動
+        const email = $('#login_mail_y').val(); //login_emailの入力値を変数emailへ代入
+        const password = $('#login_pass_y').val(); //login_passwordの入力値を変数passwordへ代入
 
-          signInWithEmailAndPassword(auth, email, password) //ログイン処理を実行
-            .then((userCredential) => { //成功したら
-              // Signed in!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-              const user = userCredential.user;
-              console.log('login'); //コンソールにlogin！
-              alert('ログインしました'); //アラートを出す
+        signInWithEmailAndPassword(auth, email, password) //ログイン処理を実行
+          .then((userCredential) => { //成功したら
+            // Signed in!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            const user = userCredential.user;
+            console.log('login'); //コンソールにlogin！
+            alert('ログインしました'); //アラートを出す              
+      })//ログイン処理成功したらここまで
+      .catch((error) => { //失敗したら
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error.code + error.message);//コンソールにエラーを出す  
+      })//ログイン失敗したらここまで
 
-              setPersistence(auth, browserLocalPersistence)
-                .then(() => {
-                  console.log('set');
-                  //return signInWithEmailAndPassword(auth, email, password);
-                })
-                .catch((error) => {
-                  // Handle Errors here.
-                  console.log('error');
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                });
+    });//logininボタンを押したら発動ここまで
 
-              $('#login_y').hide();
-              $('#title_page_y').hide();
-              $('#main_page_y').show();
 
-              //ユーザー情報を取得
-              onAuthStateChanged(auth, (user) => {
-                if (user) { //成功したらログインしているユーザー情報を返す
-                  const displayName = user.displayName; //ユーザの表示名を取得
-                  $('#login_user_y').html(`Hello、${displayName}!`); //ヘッダーにユーザの表示名を取得
-                  //console.log(user.photoURL); //プロフィール写真のパスを確認
-                  getDownloadURL(ref(storage, `${user.photoURL}`))//プロフィール写真のパスからurlを取得
-                    .then((url) => {
-                      //console.log(url); //プロフィール写真のurlを確認
-                      // Or inserted into an <img> element                   
-                      const img = document.getElementById('display_img_y');//プロフィール写真の表示場所を変数で指定
-                      img.setAttribute('src', url);//プロフィール写真の表示場所のsrc属性にurlを指定
-                    })
-                    .catch((error) => {//失敗したら
-                      // Handle any errors
-                      console.log(error);//コンソールにエラーを出す
-                    });
-
-                } else {//ユーザ見つからない場合は何もしない
-                  // User is signed out
-                }
-              });////ユーザー情報を取得 onAuthStateChangedここまで
-
-            })//ログイン処理成功したらここまで
-
-            .catch((error) => { //失敗したら
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              console.log(error.code + error.message);//コンソールにエラーを出す  
-            })//ログイン失敗したらここまで
-
-        });//logininボタンを押したら発動ここまで
-
+      //ユーザー情報を取得
+      onAuthStateChanged(auth, (user) => {
+        if (user) { //成功したらログインしているユーザー情報を返す
+          $('#login_y').hide();
+          $('#title_page_y').hide();
+          $('#main_page_y').show();
+          const displayName = user.displayName; //ユーザの表示名を取得
+          $('#login_user_y').html(`Hello<br>${displayName}!`); //ヘッダーにユーザの表示名を取得
+          //console.log(user.photoURL); //プロフィール写真のパスを確認
+          getDownloadURL(ref(storage, `${user.photoURL}`))//プロフィール写真のパスからurlを取得
+            .then((url) => {
+              //console.log(url); //プロフィール写真のurlを確認              
+              const img = document.getElementById('display_img_y');//プロフィール写真の表示場所を変数で指定
+              img.setAttribute('src', url);//プロフィール写真の表示場所のsrc属性にurlを指定
+            })
+            .catch((error) => {//URL取得が失敗したら
+              console.log(error);//コンソールにエラーを出す
+            });
+        } else {//ユーザ見つからない場合は何もしない
+          // User is signed out
+        }
+      });////ユーザー情報を取得 onAuthStateChangedここまで
 
 //------------------ログアウト操作-----------------------------------------------//
 
