@@ -132,7 +132,10 @@
     //最初の画面設定
     $('#login_y').hide();//ログイン画面を消しておく
     $('#sign_in_y').hide();//新規登録画面を消しておく
-    //$('#main_page_y').hide();//メインページを消しておく
+    $('#main_page_y').hide();//メインページを消しておく
+    //$('#title_page_y').hide();
+    
+
 
     $('#toplogin_btn_y').on('click',function(){ //トップ画面のログインボタンが押されたら
       $('#login_y').show();//ログイン画面を出す
@@ -150,7 +153,7 @@
         $('#sign_in_y').hide();//登録画面を隠す
       })
 
-    //魚写真が選択されたらプレビューを表示
+    //写真が選択されたらプレビューを表示
       $('#new_pic_y').on('change', function (e) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -203,9 +206,7 @@
     } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
 
     // firebeceのプロダクトを指定するコード APYkey
-    const firebaseConfig = {
-      
-      };
+    
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -280,7 +281,6 @@
                   await addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
 
                   const data2 = { //myworkコレクションにデータを送るための変数を準備
-                    uid: uid,
                     uid:uid,
                     name:name,
                     work_name:"",
