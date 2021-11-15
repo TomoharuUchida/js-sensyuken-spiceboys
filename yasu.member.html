@@ -16,11 +16,10 @@
   <!-- memberlistセクション -->
   <div class="wrapper_y">
     
-    <section id="member_list_y">
-      
+    <section id="member_list_y">      
       <div id="member_contents_y">
         <h2>Our House Member</h2>
-        
+        <!-- メンバー情報が表示される場所 -->
         <div id="member_view_y"></div>
       </div>
     </section>
@@ -80,12 +79,7 @@
 
     // firebeceのプロダクトを指定するコード APYkey
     const firebaseConfig = {
-      apiKey: "AIzaSyCoLKrjft6JA8cggMcCJ8UbG3POakdqF-8",
-      authDomain: "space-bf593.firebaseapp.com",
-      projectId: "space-bf593",
-      storageBucket: "space-bf593.appspot.com",
-      messagingSenderId: "204357256586",
-      appId: "1:204357256586:web:b89eaf5069b204446bb473"
+      
       };
 
 
@@ -97,7 +91,7 @@
     const db = getFirestore(app);
     // initialize storage
     const storage = getStorage(app);
-
+    //ログイン状態の確認用
     const user = auth.currentUser;
 
     if (user) {
