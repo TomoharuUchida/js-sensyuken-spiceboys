@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="maint.css">
+    <script type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+
+    moji="SPACE";　　　　 //表示文字                 //*動きながら付いてくる文字
+    msec=100;                                      //追従速度
+    fx=20;                                         //表示位置ｘ座標
+    fy=-10;                                        //表示位置y座標
+    fs=10;                                         //文字の大きさ
+    fc="blue";                                     //文字色
+    F_face="Times New Roman";                      //フォント
+    
+    x=new Array();y=new Array();cnt = 0;
+    for (i=0; i<=moji.length; i++) {x[i] = -10;y[i] = -10; }
+    for(i=0;i<moji.length;i++){
+    document.write("<DIV style='position:absolute;z_index:2;top:-10px;left:-10px;'ID='Fonts"+i+"'><font face='"+F_face+"' size="+fs+" color="+fc+">"+moji.charAt(i)+"</font></DIV>");
+    }
+    function F_move(NNevent){
+    if(document.all){x[0]=event.x;y[0]=event.y;}else{
+    x[0]= NNevent.pageX;y[0]= NNevent.pageY;}
+    }
+    function F_run(){
+    for (i=moji.length-1; i>=0; i--){
+    if(i){x[i] = x[i-1]+fs*5;y[i] = y[i-1];}
+    if(document.all){
+    document.all("Fonts"+i).style.pixelTop=y[i]+fy+document.body.scrollTop;
+    document.all("Fonts"+i).style.pixelLeft=x[i]+fx+document.body.scrollLeft;
+    }else{
+    document.getElementById("Fonts"+i).style.top=y[i]+fy+"px";
+    document.getElementById("Fonts"+i).style.left=x[i]+fx+"px";
+    }
+    }}
+    setInterval('F_run()',msec);
+    document.onmousemove = F_move;
+    </script>
+<body>
+
+   <section id="vertical_tab_nav">
+
+    <ul>
+     <details>  
+     <li><summary><a href="index.html"></a></li></summary>ゴミだし日: 出す場所は家の前
+
+     燃えるゴミ→毎週月曜日、木曜日
+     
+     燃えないゴミ→第二水曜日
+     
+     空き缶、ペットボトル→第4水曜日
+     </details> 
+     <details>
+     <li class="selected"><summary><a href="index.html"></a></li></summary>ハウスマネー
+
+     毎月頭に500円投入
+     
+     買い出しは気付いた人が行く
+     
+     領収書を入れておく
+     
+     投入したらラインでコメント
+     </details>
+     <details>  
+     <li><summary><a href="index.html"></a></li></summary>靴箱ルール
+
+     靴箱の中に一人２個まで収納可能
+     
+     外に出すのは一人１個で
+     
+     計３個おいて大丈夫。
+     
+     残りは部屋に持っていきましょう
+     </details> 
+     <details>
+     <li class="selected"><summary><a href="index.html"></a></li></summary>風呂、シャワー後は窓を開けて、換気扇を回しましょう
+
+
+     友人などを家に泊める際は24時までにラインで報告しましょう。
+     
+     ルールを守れなかったり、あまりにも行動が目に余るようだったら5,000円共益費に入れる。
+     </details>
+        
+     
+
+    
+      
+    
+   </section> 
+    
+</body>
+<script src="contentbox.js"></script>
+</html>

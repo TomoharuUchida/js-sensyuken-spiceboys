@@ -1,0 +1,89 @@
+body{
+    margin: 100px;                                   
+    padding: 20px;
+    background: #9adde5;                                  
+    font-family: arial, sans-serif;
+    font-size: 10pt;
+    line-height: 15pt;
+  }
+                                                                  /*marginでボックスを移動させる
+  /*---------- vertical tab nav */
+  #vertical_tab_nav{
+    display: block;
+    width: 100%;
+  }
+  #vertical_tab_nav ul{
+    display: block;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    overflow: hidden;
+    width: 30%;
+    border-radius: 10px 0 0 10px;
+    background: rgb(164, 224, 22);
+  }
+  #vertical_tab_nav li{
+    border-bottom: 1px solid white (0, 0, 0);
+    margin-bottom: 1px;
+    text-align: left;
+    padding: 0px;
+  }
+  #vertical_tab_nav li:last-child{
+    margin-bottom: 0px;
+    border-bottom: 0px;
+  }
+  
+  #vertical_tab_nav li a{                
+    display: block;
+    font-size: 14pt;
+    color: #fff;
+    text-decoration: none;
+    padding: 7%;
+    background: #57cac9;
+    
+   
+  }
+  #vertical_tab_nav li a.selected{
+    background: #fff;
+    color: rgb(14, 12, 131);
+  }
+  #vertical_tab_nav div{
+    display: block;
+    float: left;
+    background: #fff;
+    background: #fff;
+    width:64%;
+    min-height: 500px;
+    padding: 10px 3% 3% 3%;
+    border-radius: 0 10px 10px 0;
+  }
+  #vertical_tab_nav div article{
+    display: none;
+    margin: 0px;
+    color: #555;
+    
+  }
+  #vertical_tab_nav div article p{
+    margin: 0px 0px 20px 0px;
+  }
+  details {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: .5em .5em 0;
+}
+
+summary {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    padding: .5em;
+}
+
+details[open] {
+    padding: .5em;
+}
+
+details[open] summary {
+    border-bottom: 1px solid #aaa;
+    margin-bottom: .5em;
+}
