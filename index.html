@@ -41,53 +41,13 @@
           <button id="login_btn_y" class="btn">login</button>
         </div><!--モーダル内部ここまで-->
       </div><!--ログインモーダルここまで-->
-
     </section><!-- ログインフォームここまで -->
     
-    <!-- 新規登録フォーム -->
-    <section id="sign_in_y">
-  
-      <div class="modal_y"><!--新規登録ログインモーダル-->
-        <div id="sign_inner_y">
-
-          <div class="close_section_y">
-            <div id="sign_close_y" class="btn fas fa-times"></div>
-          </div>
-
-          <h1>新規登録</h1>
-          <!-- 新規username -->
-          <p>name</p>
-          <input type="text" id="new_name_y">
-          <!-- 新規useremail -->
-          <p>email</p>
-          <input type="email" id="new_mail_y">
-          <!-- 新規password -->
-          <p>password</p>
-          <input type="password" id="new_pass_y">
-          <!-- 新規birthday -->
-          <p>birthday</p>
-          <input type="date" id="new_birthday_y">
-          <!-- 新規hobby -->
-          <p>hobby</p>
-          <input type="text" id="new_hobby_y">
-          <!-- 新規favorite food -->
-          <p>favoritefood</p>
-          <input type="text" id="new_food_y">
-          <!-- 新規userimage -->
-          <p>user image</p>
-          <input type="file" id="new_pic_y"><br>
-          <img id="select_img_y"><br>
-          <!-- 新規登録ボタン -->
-          <button id="create_btn_y" class="btn">登録</button>
-        </div>
-      </div>
-    </section><!-- 新規登録フォームここまで -->
-
+    
     <!-- トップ画面-->
     <section id="title_page_y">
       <h1>Space</h1>
       <div id="toplogin_btn_y" class="btn">Login</div>
-      <div id="topsignin_btn_y" class="btn">Singin</div>
     </section><!-- トップ画面ここまで-->
     
     <!-- メインページ -->
@@ -110,12 +70,13 @@
 
             <div id="works" class="btn">Works</div>
             <div id="infomation" class="btn">Infomation</div>
-            <div id="rules" class="btn">Our House Rule</div>
+            <a href="シェアハウス情報/contentbox1.html"><div id="rules" class="btn">Our House Rule</div></a>
 
           </div>
           
           
         </main>
+      </div>
         <!-- フッター埋め込み部分 -->
         <footer id="footer_section_y">
           <ul id="link_btn_y">
@@ -129,10 +90,7 @@
         </footer>
         <!-- フッター埋め込み部分ここまで -->
         
-      </div>
     </div><!--screen_wrapper_yここまで-->
-
-
   </div><!-- wrapperページ幅を指定ここまで -->
 
   <!-- jquery読み込み -->
@@ -141,12 +99,9 @@
   <script>
     //最初の画面設定
     $('#login_y').hide();//ログイン画面を消しておく
-    $('#sign_in_y').hide();//新規登録画面を消しておく
     $('#main_page_y').hide();//メインページを消しておく
     //$('#title_page_y').hide();
     
-
-
     $('#toplogin_btn_y').on('click',function(){ //トップ画面のログインボタンが押されたら
       $('#login_y').show();//ログイン画面を出す
     })
@@ -154,23 +109,6 @@
     $('#login_close_y').on('click',function(){ //ログイン画面のクローズボタンが押されたら
       $('#login_y').hide();//ログイン画面を隠す
     })
-
-    $('#topsignin_btn_y').on('click', function () {//新規登録画面のクローズボタンが押されたら
-      $('#sign_in_y').show();//登録画面を出す
-    })
-
-    $('#sign_close_y').on('click', function () { //新規登録画面のクローズボタンが押されたら
-        $('#sign_in_y').hide();//登録画面を隠す
-      })
-
-    //写真が選択されたらプレビューを表示
-      $('#new_pic_y').on('change', function (e) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          $("#select_img").attr('src', e.target.result);
-        }
-        reader.readAsDataURL(e.target.files[0]);
-      });
 
     
   </script>
@@ -229,86 +167,7 @@
     // ユーザー情報確認
     const user = auth.currentUser;
 
-    //------------ユーザー新規登録-----------------------------------------------//////
-
-      $('#create_btn_y').on('click', function () { //create_btn_yボタンを押したら発動
-
-        const name = $('#new_name_y').val();//new_name_yの入力値を変数nameへ代入
-        const email = $('#new_mail_y').val(); //new_mail_yの入力値を変数emailへ代入
-        const password = $('#new_pass_y').val(); //new_pass_yの入力値を変数passwordへ代入
-        const birthday = $('#new_birthday_y').val();//new_birthday_yの入力値を変数birthdayへ代入
-        const hobby = $('#new_hobby_y').val();//new_hobby_yの入力値を変数birthdayへ代入
-        const food = $('#new_food_y').val();//new_food_yの入力値を変数birthdayへ代入
-        const file = $('#new_pic_y')[0].files[0]; //new_pic_yで選択された画像ファイルを変数fileに代入
-        if (!file) { //もしファイルがなければ、
-          alert('ファイルが設定されていません');//アラートを出す
-        }
-
-        createUserWithEmailAndPassword(auth, email, password)//ユーザ登録を実行
-          .then((userCredential) => { //成功したら
-            // Signed in
-            console.log('created!'); //コンソールにcreated!
-            alert('登録が完了しました');//アラートを出す
-            const user = userCredential.user; //変数userに返ってきたuser情報取得
-            const uid = user.uid; //変数uidにuidを代入
-            
-            //プロフィール画像をstorageに登録
-            const profile_pic = ref(storage, `user/${uid}/profile.jpg`);//変数profile_picに保存場所を指定
-            uploadBytes(profile_pic, file).then((snapshot) => { //登録処理実行
-              console.log('Uploaded a blob or file!'); //アップロード成功！
-            });
-
-            //ユーザープロフィール設定
-            updateProfile(auth.currentUser, {
-              displayName: name, photoURL: `user/${uid}/profile.jpg`//変数nameをdisplayNameに指定、photoURLを指定
-            }).then(async () => { //プロフィール登録が完了したら
-              console.log('sucsees');//sucsees!
-              //画像登録が完了したら実行
-              await getDownloadURL(ref(storage, `user/${uid}/profile.jpg`))//登録した画像のURLを取得
-                .then(async(url) => {//成功したらURLが返ってくる
-                  
-                  console.log(url);
-
-                  const data = { //userコレクションにデータを送るための変数を準備
-                    uid:uid,
-                    name:name,
-                    birthday:birthday,
-                    hobby:hobby,
-                    food:food,
-                    img:url,//画像のURLを保存
-                  }
-                  await addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
-
-                  const data2 = { //myworkコレクションにデータを送るための変数を準備
-                    uid:uid,
-                    name:name,
-                    work_name:"",
-                    work_contents:"",
-                    referenceNumber:"",
-                  }
-                  await addDoc(collection(db, "mywork"), data2);
-
-                })
-
-                .catch((error) => {//プロフィール登録が失敗したら
-                  console.log(error);//コンソールにエラーを出す
-                });
-                
-              }).catch((error) => { //画像登録が登録失敗したら
-                console.log(error);//コンソールにエラーを出す
-              });//ユーザープロフィール設定ここまで
-              
-          })//.then ユーザ登録成功したらの処理ここまで
-          .catch((error) => { //ユーザー登録に失敗したら
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(error.code + error.message);//コンソールにエラーを出す
-            // 
-          });//ユーザー登録に失敗したらの処理ここまで
-      });//signinボタンを押したら発動ここまで
-
 //--------------ログイン操作-----------------------------------------------------------//
-
 
     $('#login_btn_y').on('click', function () { //logininボタンを押したら発動
         const email = $('#login_mail_y').val(); //login_emailの入力値を変数emailへ代入

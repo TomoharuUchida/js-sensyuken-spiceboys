@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Space</title>
+    <!--reset.css読み込み-->
+    <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="maint.css">
+    <!-- font-awesome読み込み -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <script type="text/javascript"></script>
 </head>
 <script type="text/javascript">
 
-    moji="SPACE";　　　　 //表示文字                 //*動きながら付いてくる文字
+    moji="SPACE"; //表示文字                 //*動きながら付いてくる文字
     msec=100;                                      //追従速度
     fx=20;                                         //表示位置ｘ座標
     fy=-10;                                        //表示位置y座標
@@ -42,57 +46,70 @@
     document.onmousemove = F_move;
     </script>
 <body>
+    <div id="wrapper">      
+        <section id="vertical_tab_nav">
+            <h1 id="header_t">Rules</h1>
+            <ul>
+                <details>  
+                    <li><summary><a href="index.html"></a></li></summary>ゴミだし日: 出す場所は家の前
+                    
+                    燃えるゴミ→毎週月曜日、木曜日
+                    
+                    燃えないゴミ→第二水曜日
+                    
+                    空き缶、ペットボトル→第4水曜日
+                </details> 
+                <details>
+                    <li class="selected"><summary><a href="index.html"></a></li></summary>ハウスマネー
+                    
+                    毎月頭に500円投入
+                    
+                    買い出しは気付いた人が行く
+                    
+                    領収書を入れておく
+                    
+                    投入したらラインでコメント
+                </details>
+                <details>  
+                    <li><summary><a href="index.html"></a></li></summary>靴箱ルール
+                    
+                    靴箱の中に一人２個まで収納可能
+                    
+                    外に出すのは一人１個で
+                    
+                    計３個おいて大丈夫。
+                    
+                    残りは部屋に持っていきましょう
+                </details> 
+                <details>
+                    <li class="selected"><summary><a href="index.html"></a></li></summary>風呂、シャワー後は窓を開けて、換気扇を回しましょう
+                    
+                    
+                    友人などを家に泊める際は24時までにラインで報告しましょう。
+                    
+                    ルールを守れなかったり、あまりにも行動が目に余るようだったら5,000円共益費に入れる。
+                </details>
+                
+                
+                
+                
+                
+                
+        </section> 
+        <!-- フッター埋め込み部分 -->
+        <footer id="footer_section_y">
+            <ul id="link_btn_y">
+                <a href="../index.html"><li class="fas fa-home btn"></li></a>
+                <a href="../カレンダー/calender.html"><li class="far fa-calendar-alt btn"></li></a>
+                <a href="../ルーレット/roulette1.html"><li class="fas fa-dice btn"></li></a>
+                <a href="../yasu.todo.html"><li class="fas fa-shopping-cart btn"></li></a>
+                <a href="../yasu.member.html"><li class="fas fa-users btn"></li></a>
+                <a href="../setting.html"><li class="fas fa-cog btn"></li></a>
+            </ul>
+        </footer>
+        <!-- フッター埋め込み部分ここまで -->
 
-   <section id="vertical_tab_nav">
-
-    <ul>
-     <details>  
-     <li><summary><a href="index.html"></a></li></summary>ゴミだし日: 出す場所は家の前
-
-     燃えるゴミ→毎週月曜日、木曜日
-     
-     燃えないゴミ→第二水曜日
-     
-     空き缶、ペットボトル→第4水曜日
-     </details> 
-     <details>
-     <li class="selected"><summary><a href="index.html"></a></li></summary>ハウスマネー
-
-     毎月頭に500円投入
-     
-     買い出しは気付いた人が行く
-     
-     領収書を入れておく
-     
-     投入したらラインでコメント
-     </details>
-     <details>  
-     <li><summary><a href="index.html"></a></li></summary>靴箱ルール
-
-     靴箱の中に一人２個まで収納可能
-     
-     外に出すのは一人１個で
-     
-     計３個おいて大丈夫。
-     
-     残りは部屋に持っていきましょう
-     </details> 
-     <details>
-     <li class="selected"><summary><a href="index.html"></a></li></summary>風呂、シャワー後は窓を開けて、換気扇を回しましょう
-
-
-     友人などを家に泊める際は24時までにラインで報告しましょう。
-     
-     ルールを守れなかったり、あまりにも行動が目に余るようだったら5,000円共益費に入れる。
-     </details>
-        
-     
-
-    
-      
-    
-   </section> 
-    
+    </div>    
 </body>
 <script src="contentbox.js"></script>
 </html>

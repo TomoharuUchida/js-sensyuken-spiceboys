@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space</title>
+
+  <!--reset.css読み込み-->
+  <link rel="stylesheet" href="./css/reset.css">
+  <!--flame.css読み込み-->
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- font-awesome読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
+</head>
+<body>
+  <div id="screen_wrapper_y">
+    <!-- 新規登録フォーム -->
+    <section id="sign_in_y">  
+      <h1>新規登録</h1>
+      <!-- 新規username -->
+      <p>name</p>
+      <input type="text" id="new_name_y">
+      <!-- 新規useremail -->
+      <p>email</p>
+      <input type="email" id="new_mail_y">
+      <!-- 新規password -->
+      <p>password</p>
+      <input type="password" id="new_pass_y">
+      <!-- 新規birthday -->
+      <p>birthday</p>
+      <input type="date" id="new_birthday_y">
+      <!-- 新規hobby -->
+      <p>hobby</p>
+      <input type="text" id="new_hobby_y">
+      <!-- 新規favorite food -->
+      <p>favoritefood</p>
+      <input type="text" id="new_food_y">
+      <!-- 新規userimage -->
+      <p>user image</p>
+      <input type="file" id="new_pic_y"><br>
+      <img id="select_img_y"><br>
+      <!-- 新規登録ボタン -->
+      <button id="create_btn_y" class="btn">登録</button>
+
+    </section><!-- 新規登録フォームここまで -->
+
+    <!-- フッター埋め込み部分 -->
+    <footer id="footer_section_y">
+      <ul id="link_btn_y">
+        <a href="index.html">
+          <li class="fas fa-home btn"></li>
+        </a>
+        <a href="./カレンダー/calender.html">
+          <li class="far fa-calendar-alt btn"></li>
+        </a>
+        <a href="./ルーレット/roulette1.html">
+          <li class="fas fa-dice btn"></li>
+        </a>
+        <a href="yasu.todo.html">
+          <li class="fas fa-shopping-cart btn"></li>
+        </a>
+        <a href="yasu.member.html">
+          <li class="fas fa-users btn"></li>
+        </a>
+        <a href="setting.html">
+          <li class="fas fa-cog btn"></li>
+        </a>
+      </ul>
+    </footer>
+    <!-- フッター埋め込み部分ここまで -->
+  </div><!--screen_wrapper_yここまで-->
+
+    <!-- jquery読み込み -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script type="module">
+
+      //firebereを利用するためのコード
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+
+      //authenticaonを利用するためのコード
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged,
+        updateProfile,
+        setPersistence,
+        browserSessionPersistence,
+        browserLocalPersistence,
+      } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+
+      //cloudfirestoreを利用するためのコード
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+        onSnapshot,
+        query,
+        orderBy,
+        getDoc,
+        deleteDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+
+      //storegeを使うためのコード  
+      import {
+        getStorage,
+        ref,
+        uploadBytes,
+        getDownloadURL,
+      } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
+
+      // firebeceのプロダクトを指定するコード APYkey
+      
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // Initialize authentication
+      const auth = getAuth(app);
+      // Initialize firestore
+      const db = getFirestore(app);
+      // initialize storage
+      const storage = getStorage(app);
+      // ユーザー情報確認
+      const user = auth.currentUser;
+
+     //写真が選択されたらプレビューを表示
+      $('#new_pic_y').on('change', function (e) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("#select_img_y").attr('src', e.target.result);
+        }
+        reader.readAsDataURL(e.target.files[0]);
+      });
+
+
+//------------ユーザー新規登録-----------------------------------------------//////
+
+    $('#create_btn_y').on('click', function () { //create_btn_yボタンを押したら発動
+
+      const name = $('#new_name_y').val();//new_name_yの入力値を変数nameへ代入
+      const email = $('#new_mail_y').val(); //new_mail_yの入力値を変数emailへ代入
+      const password = $('#new_pass_y').val(); //new_pass_yの入力値を変数passwordへ代入
+      const birthday = $('#new_birthday_y').val();//new_birthday_yの入力値を変数birthdayへ代入
+      const hobby = $('#new_hobby_y').val();//new_hobby_yの入力値を変数birthdayへ代入
+      const food = $('#new_food_y').val();//new_food_yの入力値を変数birthdayへ代入
+      const file = $('#new_pic_y')[0].files[0]; //new_pic_yで選択された画像ファイルを変数fileに代入
+      if (!file) { //もしファイルがなければ、
+        alert('ファイルが設定されていません');//アラートを出す
+      }
+
+      createUserWithEmailAndPassword(auth, email, password)//ユーザ登録を実行
+        .then((userCredential) => { //成功したら
+          // Signed in
+          console.log('created!'); //コンソールにcreated!
+          alert('登録が完了しました');//アラートを出す
+          const user = userCredential.user; //変数userに返ってきたuser情報取得
+          const uid = user.uid; //変数uidにuidを代入
+
+          //プロフィール画像をstorageに登録
+          const profile_pic = ref(storage, `user/${uid}/profile.jpg`);//変数profile_picに保存場所を指定
+          uploadBytes(profile_pic, file).then((snapshot) => { //登録処理実行
+            console.log('Uploaded a blob or file!'); //アップロード成功！
+          });
+
+          //ユーザープロフィール設定
+          updateProfile(auth.currentUser, {
+            displayName: name, photoURL: `user/${uid}/profile.jpg`//変数nameをdisplayNameに指定、photoURLを指定
+          }).then(async () => { //プロフィール登録が完了したら
+            console.log('sucsees');//sucsees!
+            //画像登録が完了したら実行
+            await getDownloadURL(ref(storage, `user/${uid}/profile.jpg`))//登録した画像のURLを取得
+              .then(async (url) => {//成功したらURLが返ってくる
+
+                console.log(url);
+
+                const data = { //userコレクションにデータを送るための変数を準備
+                  uid: uid,
+                  name: name,
+                  birthday: birthday,
+                  hobby: hobby,
+                  food: food,
+                  img: url,//画像のURLを保存
+                }
+                await addDoc(collection(db, "user"), data);//変数をuserコレクションに送る
+
+                const data2 = { //myworkコレクションにデータを送るための変数を準備
+                  uid: uid,
+                  name: name,
+                  work_name: "",
+                  work_contents: "",
+                  referenceNumber: "",
+                }
+                await addDoc(collection(db, "mywork"), data2);
+
+              })
+
+              .catch((error) => {//プロフィール登録が失敗したら
+                console.log(error);//コンソールにエラーを出す
+              });
+
+          }).catch((error) => { //画像登録が登録失敗したら
+            console.log(error);//コンソールにエラーを出す
+          });//ユーザープロフィール設定ここまで
+
+        })//.then ユーザ登録成功したらの処理ここまで
+        .catch((error) => { //ユーザー登録に失敗したら
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(error.code + error.message);//コンソールにエラーを出す
+          // 
+        });//ユーザー登録に失敗したらの処理ここまで
+    });//signinボタンを押したら発動ここまで
+
+  </script>
+</body>
+</html>

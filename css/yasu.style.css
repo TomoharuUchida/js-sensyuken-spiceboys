@@ -1,5 +1,8 @@
 @charset "utf-8";
 
+/* googleフォント読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
 /* -------全体のスタイル -------------------------------*/
 * {
   box-sizing: border-box;
@@ -116,10 +119,12 @@ button{
 
 #member_contents_y h2 {
   margin-bottom: 24px;
+  font-family: 'Play', sans-serif;
 }
 
 .member_container_y {
   margin-bottom: 16px;
+  font-family: 'Play', sans-serif;
 }
 
 /* メンバープロフィール画像 */
@@ -142,6 +147,7 @@ button{
 #setting_contents {
   color:#5b5b5b;
   padding:24px;
+  font-family: 'Play', sans-serif;
 }
 
 #setting_contents ul {

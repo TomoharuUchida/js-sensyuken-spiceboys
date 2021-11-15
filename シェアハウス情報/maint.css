@@ -1,39 +1,44 @@
-body{
-    margin: 100px;                                   
-    padding: 20px;
-    background: #9adde5;                                  
+/* googleフォント読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
+
+body{                              
     font-family: arial, sans-serif;
     font-size: 10pt;
     line-height: 15pt;
+    color:#5b5b5b;
+    margin: 0;
   }
                                                                   /*marginでボックスを移動させる
   /*---------- vertical tab nav */
-  #vertical_tab_nav{
-    display: block;
-    width: 100%;
+  #wrapper {
+  width: 375px;
+  height: 800px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+  text-align: center;
   }
+
+  #header_t{
+    margin-top: 0;
+    padding-top: 40px;
+    font-size: 50px;
+    margin-bottom: 100px;
+    font-family: 'Play', sans-serif;
+  }
+  
   #vertical_tab_nav ul{
-    display: block;
-    float: left;
-    margin: 0px;
+    margin-top: 0 auto;
     padding: 0px;
     list-style: none;
     overflow: hidden;
-    width: 30%;
+    width: 90%;
+    margin-left: 20px;
     border-radius: 10px 0 0 10px;
-    background: rgb(164, 224, 22);
-  }
-  #vertical_tab_nav li{
-    border-bottom: 1px solid white (0, 0, 0);
-    margin-bottom: 1px;
+    background: #bbdbf3;
     text-align: left;
-    padding: 0px;
   }
-  #vertical_tab_nav li:last-child{
-    margin-bottom: 0px;
-    border-bottom: 0px;
-  }
-  
+
   #vertical_tab_nav li a{                
     display: block;
     font-size: 14pt;
@@ -41,23 +46,20 @@ body{
     text-decoration: none;
     padding: 7%;
     background: #57cac9;
-    
-   
   }
+
   #vertical_tab_nav li a.selected{
     background: #fff;
     color: rgb(14, 12, 131);
   }
+
   #vertical_tab_nav div{
-    display: block;
-    float: left;
-    background: #fff;
-    background: #fff;
     width:64%;
     min-height: 500px;
     padding: 10px 3% 3% 3%;
     border-radius: 0 10px 10px 0;
   }
+
   #vertical_tab_nav div article{
     display: none;
     margin: 0px;
@@ -87,3 +89,29 @@ details[open] summary {
     border-bottom: 1px solid #aaa;
     margin-bottom: .5em;
 }
+
+/* -----------------------------フッター部分 ---------------------------------------*/
+
+#footer_section_y {
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+}
+
+#link_btn_y {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 375px;
+  height: 70px;
+  background-color: #bbdbf3;
+  padding: 0px;
+}
+
+#link_btn_y li {
+  font-size: 32px;
+  color:#5b5b5b;
+}
+
+
+/* -----------------------------フッター部分ここまで ----------------------------------*/
