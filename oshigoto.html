@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- <link rel="stylesheet" href="./uchida-js-sensyuken.css"> -->
+    <!-- font-awesome読み込み -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style type="text/css">
+        body {
+            width: 375px;
+            padding: 2px;
+            background-color: #f5f5f5;
+
+        }
+
+        /* ホームボタンに関する記述 */
+        .page_top_icon_container {
+            text-align: right;
+            display: flex;
+            justify-content: right;
+        }
+
+        #page_top {
+            width: 50px;
+            height: 50px;
+            /* background: #3f98ef; */
+            opacity: 1;
+            margin-right: 15px;
+        }
+
+        #page_top a {
+            font-family: "Font Awesome 5 Free";
+            content: "\f15";
+            font-weight: 900;
+            font-size: 2rem;
+            color: #5b5b5b;
+        }
+
+        /* 担当の仕事ボックス */
+        * {
+            font-family: hiragino, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .member_list_container {
+            background-color: #f5f5f5;
+        }
+
+        .member_list_title {
+            margin: 0px;
+        }
+
+        .membersBox {
+            border: 1px solid darkgray;
+            margin: 1px;
+            /* background-color: chocolate; */
+        }
+
+        .name_tag_u {
+            font-weight: bold;
+        }
+
+        .membersBox p {
+            font-size: 5px;
+            padding: 0px;
+        }
+
+        /* 入替実行ボタンの記述 */
+        #work_mixing_btn {
+            font-size: 16px;
+            width: 350px;
+            height: 32px;
+            background-color: #BBDBF3;
+            border: 0.5px solid #f5f5f5;
+            margin-bottom: 25px;
+        }
+
+        .work_mixing_container {
+            background-color: #f5f5f5;
+        }
+
+        /* 仕事の追加の記述 */
+        .work_adding p {
+            margin: 0px;
+        }
+
+        .work_adding input {
+            width: 350px;
+            height: 32px;
+            border: 0.5px solid #5b5b5b;
+        }
+
+        .work_adding textarea {
+            width: 350px;
+        }
+
+        #work_create {
+            font-size: 16px;
+            width: 350px;
+            height: 32px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background-color: #BBDBF3;
+            border: 0.5px solid #f5f5f5;
+
+        }
+
+        .work_setting h4 {
+            margin-bottom: 0px;
+        }
+
+        /* 仕事の削除の記述 */
+        #deadbtn {
+            font-size: 16px;
+            width: 350px;
+            height: 32px;
+            background-color: #BBDBF3;
+            border: 0.5px solid #f5f5f5;
+            margin-bottom: 25px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ホームボタンの記述 -->
+    <div class="page_top_icon_container">
+        <div id="page_top"><a class="fas fa-home fa-2x" href="./index.html"></a></div>
+    </div>
+
+    <!-- class名は案です。-->
+    <!-- '自分の仕事の表示ボックス' -->
+    <!-- <div class="mywork_container">
+        <h3 id='mywork_box_name'>内田ともはるさんのお仕事</h3>
+        <p id="mywork_box_date"></p>
+        <ul id="mywork_box_work">
+        </ul>
+    </div> -->
+
+    <!-- メンバーの仕事を表示するボックス -->
+    <div class="member_list_container">
+        <h3 member_list_title>みんなのお仕事</h3>
+        <div id="member_list_box"></div>
+    </div>
+
+    <!-- '仕事をシャッフルする'機能のボックス -->
+    <div class="work_mixing_container">
+        <h4>仕事を入れ替える</h4>
+        <div class="work_mixing">
+            <form action="">
+                <button type="button" id="work_mixing_btn">入替実行</button>
+            </form>
+        </div>
+    </div>
+    <!-- '仕事の追加・削除'機能のボックス -->
+    <div class="work_setting">
+        <h4>仕事を作成する</h4>
+        <div class="work_adding">
+            <form action="">
+                <div>
+                    <p>整理番号:</p>
+                    <input type="number" id="referenceNumber_tag">
+                </div>
+                <div>
+                    <p>仕事の名前:</p>
+                    <input type="text" id="name_of_work">
+                </div>
+                <div>
+                    <p>仕事の内容:</p>
+                    <textarea name="" id="explain_of_work" cols="30" rows="10"></textarea>
+                </div>
+                <button type="button" id="work_create">作成</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 仕事の削除機能のボックス -->
+    <!-- 配列から仕事をボタンにして表示し、クリックして、「削除決定」をクリックして削除する -->
+    <div class="work_deleate_container">
+        <h4>仕事を削除する</h4>
+        <div class="work_deleate_box">
+        </div>
+        <button id="deadbtn">削除</button>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="./test_uchida-js-sensyuken.js"></script> -->
+    <script type="module">
+        // 内田が担当する部分に関するjsを記述しています
+
+        // 日時の表示
+        //firebereを利用するためのコード
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js";
+
+        //authenticaonを利用するためのコード
+        // import {
+        //     getAuth,
+        //     createUserWithEmailAndPassword,
+        //     signInWithEmailAndPassword,
+        //     signOut,
+        //     onAuthStateChanged,
+        //     updateProfile,
+        // } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-auth.js";
+
+        //cloudfirestoreを利用するためのコード
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp,
+            onSnapshot,
+            query,
+            orderBy,
+            getDocs,
+            deleteDoc,
+            doc,
+            updateDoc,
+        } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-firestore.js";
+
+        //storegeを使うためのコード  
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL,
+        } from "https://www.gstatic.com/firebasejs/9.4.1/firebase-storage.js";
+
+        // firebeceのプロダクトを指定するコード APYkey
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "space-4e254.firebaseapp.com",
+            projectId: "space-4e254",
+            storageBucket: "space-4e254.appspot.com",
+            messagingSenderId: "314571260665",
+            appId: "1:314571260665:web:b29545f0f281d676959828"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        // Initialize authenticaon
+        // const auth = getAuth(app);
+        // Initialize firestore
+        const db = getFirestore(app);
+
+        // initialize storage
+        // const storage = getStorage(app);
+
+        // firebaseから取得したメンバーの名前を入れる配列
+        const memberNameArray = [];
+        // const membersArray = ['うちだ', 'やすたけ', 'たかだ', 'ふじさき', 'しおつき', 'ふじむら', 'きよしま', 'ほりい',];
+
+        // ordeByがなければ、googleのよくわからない順番で出力されてしまうorderBy("referenceNumber_tag", "desc")
+        const q = query(collection(db, "work"),);
+
+
+
+        // -----仕事work-----取得したデータの取り出し(わかりやすい形に変換するための配列を用意する)
+        const workDataArray = [];
+
+        // onSnapshotの{}内はfirebaseのデータが動いたときに動く
+        // firestoreから取ってきたデータを使用する処理を書く場合は、全て{}内に書く必要がある
+        onSnapshot(q, (querySnapshot) => {
+            console.log(querySnapshot.docs);
+
+
+            // firestoreから取得したデータを繰り返し処理して、dataというオブジェクトにidと中身をまとめる
+            querySnapshot.docs.forEach(function (doc) {
+                const data = {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+
+                // わかりやすい形のデータを入れるための配列にオブジェクトを追加する
+                workDataArray.push(data);
+            });
+            console.log(workDataArray);
+
+            // タグを入れるための配列を用意する
+            const tagArrayTop = [];
+            const tagArraySub = [];
+
+        });
+
+        // コレクションmyworkのデータを取得する記述
+        const cl = query(collection(db, "mywork"),);
+
+        // 仕事workに関して、取得したデータの取り出し(わかりやすい形に変換するための配列を用意する)
+        const myWorkDataArray = [];
+
+
+        // onSnapshotの{}内はfirebaseのデータが動いたときに動く
+        // firestoreから取ってきたデータを使用する処理を書く場合は、全て{}内に書く必要がある
+        onSnapshot(cl, (querySnapshot) => {
+            console.log(querySnapshot.docs);
+
+
+            // firestoreから取得したデータを繰り返し処理して、dataというオブジェクトにidと中身をまとめる
+            querySnapshot.docs.forEach(function (doc) {
+                const data = {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                // console.log(data);
+                // わかりやすい形のデータを入れるための配列にオブジェクトを追加する
+                myWorkDataArray.push(data);
+            });
+
+            // タグを入れるための配列を用意する
+            console.log(myWorkDataArray);
+        });
+
+        // firestoreの書き換えのための変数定義
+        // function workWrite() {
+        //     for (let i = 0; i < myWorkDataArray.length; i++) {
+        //         const userDoc = doc(db, "mywork", "");
+        //         const workRewrite = doc(db, "mywork", "");
+        //         updateDoc(userDoc, { name: "unko" });
+        //     }
+        // }
+
+
+        // firebaseからユーザーデータを取得する記述
+        onSnapshot(collection(db, "user"), (querySnapshot) => {
+            console.log(querySnapshot.docs);
+            const dataArray = [];//オブジェクトに変えるようの配列
+            const userArray = [];//ユーザー情報のみを取得する用の配列
+            const imgArray = [];//画像表示用の配列
+            querySnapshot.docs.forEach(function (doc) { //querySnapshot.docsをわかりやすいように
+                const data = {
+                    id: doc.id,
+                    data: doc.data(),
+                };
+                dataArray.push(data);
+            });
+
+            dataArray.forEach(function (doc) { //dataArrayを分解
+                const udata = {
+                    id: doc.id,
+                    uid: doc.data.uid,
+                    name: doc.data.name,
+                    img: doc.data.img,
+                    hobby: doc.data.hobby,
+                    birthday: doc.data.birthday,
+                    food: doc.data.food,
+                }
+                userArray.push(udata);
+            })
+            console.log(userArray); //userのオブジェクトが完成!!!!        
+            for (let i = 0; i < userArray.length; i++) {
+                memberNameArray.push(userArray[i].name);
+            }
+
+            // // メンバーの名前、仕事をタグ付して、htmlにする配列
+            function membersBoxDisplay() {
+                const membersBoxArray = [];
+                for (let i = 0; i < memberNameArray.length; i++) {
+                    membersBoxArray.push(`<div class="membersBox"><p class="name_tag_u">${memberNameArray[i]}</p><p>担当: ${workDataArray[i].data.name}</p><p>${workDataArray[i].data.workContent}</p></div>`);
+                }
+                $('#member_list_box').html(membersBoxArray);
+            }
+            membersBoxDisplay();
+        });
+        console.log('memberNameArray');
+
+
+
+        // console.log(memberNameArray);
+        let date = Date();
+        console.log(date);
+
+        // 仕事の配列を作成する,仕事のデータは外部に保管しないと消える
+        const workArray = [
+            {
+                referenceNumber: 1,
+                name: 'トイレ(3F/4F)そうじ',
+                workContent: '内容はトイレの張り紙を見てね',
+            },
+            {
+                referenceNumber: 2,
+                name: '買い出し',
+                workContent: '買い物リストを見て買ってきてね',
+            },
+            {
+                referenceNumber: 3,
+                name: '玄関そうじ',
+                workContent: '内容は玄関の張り紙を見てね',
+            },
+            {
+                referenceNumber: 4,
+                name: 'フロア(3F/4F)そうじ',
+                workContent: '内容はリビングの張り紙を見てね',
+            },
+            {
+                referenceNumber: 5,
+                name: 'ゴミ出し',
+                workContent: '燃えるゴミは,火曜・金曜,燃えないゴミは、水曜.詳細はキッチンの張り紙を見てね',
+            },
+            {
+                referenceNumber: 6,
+                name: '風呂そうじ',
+                workContent: '内容は脱衣所の張り紙を見てね',
+            },
+            {
+                referenceNumber: 7,
+                name: 'キッチンそうじ',
+                workContent: '内容はキッチンの張り紙を見てね',
+            },
+            {
+                referenceNumber: 8,
+                name: 'リビングそうじ',
+                workContent: '内容はリビングの張り紙を見てね',
+            },
+        ];
+
+        // 仕事を作成して、firebaseに保存する記述
+        $("#work_create").on("click", function () {
+            // 作成に必要な処理
+            const workCreateArray = [];
+            const data = {
+                referenceNumber: $("#referenceNumber_tag").val(),
+                name: $("#name_of_work").val(),
+                workContent: $("#explain_of_work").val(),
+            };
+            workCreateArray.push(data);
+            console.log(data);
+            // collection,collection名を指定しないとaddDocがエラーになる
+            addDoc(collection(db, 'work'), data);
+            $('#referenceNumber_tag').val('');
+            $('#name_of_work').val('');
+            $('#explain_of_work').val('');
+        });
+
+
+        // firebaseの上書き処理
+        /*$('#deadbtn').on('click', async function () {
+            function arrayShuffle(array) {
+                for (let i = (array.length - 1); 0 < i; i--) {
+
+                    // 0〜(i+1)の範囲で値を取得
+                    let r = Math.floor(Math.random() * (i + 1));
+
+                    // 要素の並び替えを実行
+                    let tmp = array[i];
+                    array[i] = array[r];
+                    array[r] = tmp;
+                }
+                return array;
+            }
+            // 担当の仕事を決定する
+            // firebaseの仕事の配列の順番、メンバーの順番は一定なので、仕事のvalueを入れ替えることで、'並び替え'とする 
+            // firebase上のデータの取得
+            const querySnapshot = await getDocs(collection(db, "work"));
+            // const querySnapshot = doc(collection(db, "mywork"));
+            console.log(querySnapshot);
+
+            const testDataArray = [];
+
+            querySnapshot.forEach((doc) => {
+
+                const data = {
+                    id: doc.id,
+                    data: doc.data(),
+                    // uid: doc.data.uid,
+                    // referenceNumber: doc.data.referenceNumber,
+                    // name: doc.data.name,
+                    // work_contents: doc.data.work_contents,
+                    // work_name: doc.data.work_name,
+                }
+                testDataArray.push(data);
+
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                console.log(testDataArray);
+                console.log(data.id);
+            });
+
+        });*/
+
+
+        // 仕事をシャッフルしているように見せる処理 firebase上のデータはシャッフルできていない
+        function membersBoxDisplay2() {
+            const membersBoxArray = [];
+            for (let i = 0; i < memberNameArray.length; i++) {
+                membersBoxArray.push(`<div class="membersBox"><p class="name_tag_u">${memberNameArray[i]}</p><p>担当: ${workArray[i].name}</p><p>${workArray[i].workContent}</p></div>`);
+            }
+            $('#member_list_box').html(membersBoxArray);
+        }
+        membersBoxDisplay2();
+
+        // 担当の仕事を入れ替える処理についての記述
+        // 配列の要素をシャッフルする関数
+        function arrayShuffle(array) {
+            for (let i = (array.length - 1); 0 < i; i--) {
+
+                // 0〜(i+1)の範囲で値を取得
+                let r = Math.floor(Math.random() * (i + 1));
+
+                // 要素の並び替えを実行
+                let tmp = array[i];
+                array[i] = array[r];
+                array[r] = tmp;
+            }
+            return array;
+        }
+        // '入れ替え実行ボタンを押すと配列の要素が並び変わる'
+        $('#work_mixing_btn').on('click', function () {
+            arrayShuffle(workArray);
+            console.log(workArray);
+            membersBoxDisplay2();//配列が並び変わったので、名前と仕事のhtmlを作り直す
+        });
+
+
+
+        // 仕事をボタンにして表示させ、削除するものをクリックして選択し、削除決定ボタンで削除する
+        // 仕事の配列から、ボタンを作成する処理
+        // function deleteBtnCreate() {
+        //     const deleteBtnArray = [];
+        //     for (let i = 0; i < workArray.length; i++) {
+        //         deleteBtnArray.push(`<li><button id="deleteBtn" value="${i}">${workArray[i].name}</button></li>`);
+        //     }
+        //     $('#delete_btn_box').html(deleteBtnArray);
+        // }
+        // deleteBtnCreate();
+
+        // 仕事のbtnをクリックすると、アラートを出して、'削除決定'をクリックして、削除
+        // アラート、分岐の処理
+        function workDelete() {
+            if (confirm('この仕事を削除しますか？')) {
+                // 配列から削除する処理
+                workArray.splice(0, value);
+                console.log('workArray');
+            } else {
+                console.log('削除しなかった');
+            }
+        }
+        $('#deleteBtn').on('click', function (e) {
+            console.log(e.target.value);
+            if (confirm('この仕事を削除しますか？')) {
+                // 配列から削除する処理
+                workArray.splice(0, e.target.value + 1);
+                deleteBtnCreate();
+                // console.log(workArray);
+                // $('#mywork_box_work').html(myworkArray);
+            } else {
+                console.log('削除しなかった');
+            }
+        });
+
+        // 仕事を作成（追加）する ローカルの配列に入れているので、firebaseではない
+        $('#work_create').on('click', function () {
+            // alert('ok');
+            const workNameData = $('#name_of_work').val();
+            const workExplainData = $('#explain_of_work').val();
+            workArray.push({ name: workNameData, workContent: workExplainData });
+            console.log(workArray);
+
+        });
+
+// 仕事を削除する workArrayにfilterを使う
+
+
+
+// 仕事の追加、削除、割当の同期管理が難しい、一旦中断
+// 他の人には、担当の仕事（インデックス番号）を割り当てる
+// 一定の周期(setIntarval的な?)で、仕事を変更する、インデックス番号をずらす
+
+    </script>
+</body>
+
+</html>

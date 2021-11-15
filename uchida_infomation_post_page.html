@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.4/css/all.css">
 
     <style type="text/css">
         /* googleフォント読み込み */
@@ -20,6 +21,7 @@
         body {
             width: 375px;
             padding: 2px;
+            background-color: #f5f5f5;
         }
 
         /* --------トップページのお知らせ表示ボックス-------- */
@@ -49,24 +51,66 @@
         .info_input {
             /* width: 40%; */
             padding: 5px;
-            background-color: burlywood;
+            background-color: #f5f5f5;
             border: 1px solid #eee;
         }
 
-        /* 表示・非表示となる部分のdiv */
-        #info_input_box div {
-            /* display: none; */
-            display: flex;
-            flex-direction: column;
+        /* タイトルと内容のinputタグが入ったdiv */
+        .info_input_title_contents {
+            text-align: left;
+            background-color: #f5f5f5;
         }
 
+        #info_title {
+            width: 350px;
+            height: 32px;
+        }
+
+        #info_contents {
+            width: 350px;
+        }
+
+        #info_send {
+            font-size: 16px;
+            width: 350px;
+            height: 32px;
+            margin-top: 20px;
+            background-color: #BBDBF3;
+            border: 0.5px solid #f5f5f5;
+        }
+
+        .page_top_icon_container {
+            text-align: right;
+            display: flex;
+            justify-content: right;
+        }
+
+        #page_top {
+            width: 50px;
+            height: 50px;
+            /* background: #3f98ef; */
+            opacity: 1;
+            margin-right: 15px;
+        }
+
+        #page_top a {
+            font-family: "Font Awesome 5 Free";
+            content: "\f15";
+            font-weight: 900;
+            font-size: 2rem;
+            color: #5b5b5b;
+        }
+
+
+
+
         /* 個別のお知らせ詳細を表示させる部分のdiv */
-        .info_container_sub {
-            /* width: 40%; */
+        /* .info_container_sub {
+            width: 40%;
             padding: 5px;
             background-color: burlywood;
             border: 1px solid #eee;
-        }
+        } */
 
 
         */
@@ -76,20 +120,27 @@
 <body>
 
     <!-- お知らせ詳細ページ部分 -->
-    <div class="info_input" style="text-align: center;">
+    <div class="page_top_icon_container">
+        <div id="page_top"><a class="fas fa-home fa-2x" href="./index.html"></a></div>
+    </div>
+    <div class="info_input">
         <p style="font-weight: bold; text-align: left">お知らせを作成する</p>
-        <p><button id="info_input_box_btn" style="width: 300px; padding:10px;">作成画面の表示</button></p>
-        <div id="info_input_box">
-            <div><label for="info_title">タイトル</label>
-                <input type="text" id="info_title">
-            </div>
-            <div><label for="info_contents">内容</label>
-                <textarea name="" id="info_contents" cols="30" rows="10"></textarea>
-            </div>
-            <div>
-                <button type="button" id="info_send">投稿</button>
-            </div>
+        <!-- <p><button id="info_input_box_btn" style="width: 300px; padding:10px;">作成画面の表示</button></p>
+        <div id="info_input_box"> -->
+        <div id="info_input_title_contents">
+            <p>タイトル</p>
+            <input type="text" id="info_title">
+            <p>内容</p>
+            <textarea name="" id="info_contents" cols="40" rows="10"></textarea>
         </div>
+        <!-- <div>
+            <p>内容</p>
+            <textarea name="" id="info_contents"></textarea>
+        </div> -->
+        <div>
+            <button type="button" id="info_send">投稿</button>
+        </div>
+    </div>
     </div>
     <!-- 裏ページのお知らせ表示ボックス 日時とタイトルと内容を表示 -->
     <!-- 情報が増えるとページが長くなってしまう -->
@@ -157,11 +208,11 @@
         const db = getFirestore(app);
 
         // 'お知らせを作成する'を表示・非表示に切り替える
-        $("#info_input_box_btn").on('click', function () {
-            console.log('hogehoge');
-            // $("#info_input_box").css('display', 'block');
-            $("#info_input_box").slideToggle();
-        });
+        // $("#info_input_box_btn").on('click', function () {
+        //     console.log('hogehoge');
+        //     // $("#info_input_box").css('display', 'block');
+        //     $("#info_input_box").slideToggle();
+        // });
 
 
         $("#info_send").on("click", function () {
