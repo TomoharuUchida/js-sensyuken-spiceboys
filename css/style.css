@@ -173,6 +173,10 @@ body {
   width: 100%;
 }
 
+#main_page_y {
+ background-color: #fff;
+}
+
 
 /* 画面右上ログアウトボタン */
 #logout_btn_y {
